@@ -12,7 +12,7 @@
 *****************************************************************/
 const St = imports.gi.St;
 const Main = imports.ui.main;
-const Shell = imports.gi.Shell;
+const Cinnamon = imports.gi.Cinnamon;
 const WindowManager = imports.ui.windowManager;
 const MessageTray = imports.ui.messageTray;
 const Lang = imports.lang;
@@ -23,7 +23,7 @@ const Clutter = imports.gi.Clutter;
 const Signals = imports.signals;
 const Tweener = imports.ui.tweener;
 const Workspace = imports.ui.workspace;
-const Utils = imports.misc.extensionUtils.getCurrentExtension().imports.utils; 
+const Utils = imports.ui.extensionSystem.extensions["gTile@shuairan"].imports.utils;
 
 const SETTINGS_GRID_SIZE = 'grid-size';
 const SETTINGS_AUTO_CLOSE = 'auto-close';
@@ -93,7 +93,7 @@ function init()
 function enable() {
     status = false;
     monitors = Main.layoutManager.monitors;
-    tracker = Shell.WindowTracker.get_default();
+    tracker = Cinnamon.WindowTracker.get_default();
 
     nbCols = 4;
     nbRows = 4;
