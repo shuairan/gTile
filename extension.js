@@ -23,7 +23,8 @@ const Clutter = imports.gi.Clutter;
 const Signals = imports.signals;
 const Tweener = imports.ui.tweener;
 const Workspace = imports.ui.workspace;
-const Utils = imports.ui.extensionSystem.extensions["gTile@shuairan"].imports.utils;
+const gTile = imports.ui.extensionSystem.extensions["gTile@shuairan"];
+const Utils = gTile.utils;
 
 const SETTINGS_GRID_SIZE = 'grid-size';
 const SETTINGS_AUTO_CLOSE = 'auto-close';
@@ -111,6 +112,7 @@ function enable() {
     Main.panel._rightBox.insert_child_at_index(launcher.actor, 0);	
 
     // Key Bindings
+    /*
     for(key in key_bindings) {
         global.display.add_keybinding(key,
             mySettings,
@@ -118,6 +120,7 @@ function enable() {
             key_bindings[key]
         );
     }
+    */
 }
 
 function disable() 

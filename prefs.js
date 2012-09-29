@@ -2,7 +2,8 @@ const GObject = imports.gi.GObject;
 const Gdk = imports.gi.Gdk;
 const Gtk = imports.gi.Gtk;
 
-const Utils = imports.misc.extensionUtils.getCurrentExtension().imports.utils; 
+const gTile = imports.ui.extensionSystem.extensions["gTile@shuairan"];
+const Utils = gTile.utils;
 
 // End of imports;
 
