@@ -1,12 +1,12 @@
 const Gio = imports.gi.Gio;
 
 const Extension = imports.ui.extensionSystem.extensions['gTile@shuairan']
-const GTILE_SCHEMA = "org.cinnamon.extensions.gtile";
+const GTILE_SCHEMA = 'org.cinnamon.extensions.gtile';
 
 // End of imports.
 
 function getSettings() {
-	/*
+/*
     let dir = Extension.dir.get_child('schemas').get_path();
 	global.log(dir);
     let source = Gio.SettingsSchemaSource.new_from_directory(dir,
@@ -17,13 +17,14 @@ function getSettings() {
 		throw new Error('Error Initializing the thingy.');
 	}
 
-	let schema = source.lookup('org.gnome.shell.extensions.gtile', false);
+	let schema = source.lookup(GTILE_SCHEMA, false);
 
 	if(!schema) {
 		throw new Error('Schema missing.');
 	}
-	*/
-	return new Gio.Settings({
+*/
+    global.log(GTILE_SCHEMA);    
+    return new Gio.Settings({
 		schema: GTILE_SCHEMA
 	});
 }

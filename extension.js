@@ -26,6 +26,8 @@ const Workspace = imports.ui.workspace;
 const gTile = imports.ui.extensionSystem.extensions["gTile@shuairan"];
 const Utils = gTile.utils;
 
+const GTILE_SCHEMA = 'org.cinnamon.extensions.gtile';
+
 const SETTINGS_GRID_SIZE = 'grid-size';
 const SETTINGS_AUTO_CLOSE = 'auto-close';
 const SETTINGS_ANIMATION = 'animation';
@@ -110,17 +112,16 @@ function enable() {
     tracker.connect('notify::focus-app', Lang.bind(this, this._onFocus));
 
     Main.panel._rightBox.insert_child_at_index(launcher.actor, 0);	
-
+global.log(mySettings);
     // Key Bindings
-    /*
     for(key in key_bindings) {
         global.display.add_keybinding(key,
-            mySettings,
+            //mySettings,
+            GTILE_SCHEMA,
             Meta.KeyBindingFlags.NONE,
             key_bindings[key]
         );
     }
-    */
 }
 
 function disable() 
