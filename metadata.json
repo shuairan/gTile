@@ -1,1 +1,7 @@
-{"shell-version": ["3.4.1"], "uuid": "gTile@vibou", "name": "gTile", "description": "Tile your windows as you like. It even supports multiscreen ! -EDIT: - See README file for configuration -", "url" : "https://github.com/vibou/vibou.gTile"}
+{
+    "cinnamon-version": ["1.4.0"], 
+    "uuid": "gTile@shuairan", 
+    "name": "gTile", 
+    "description": "Tile your windows as you like. It even supports multiscreen ! -EDIT: - See README file for configuration -", 
+    "url" : "https://github.com/shuairan/vibou.gTile"
+}
