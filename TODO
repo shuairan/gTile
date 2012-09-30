@@ -1,0 +1,8 @@
+TODO and Known Issues
+
+* position of panel is not determined correctly (its assumed to be top)
+* there seems to be a small offset to the left
+
+---
+
+multimonitor support? -> Test it!
