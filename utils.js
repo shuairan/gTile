@@ -8,7 +8,6 @@ const GTILE_SCHEMA = 'org.cinnamon.extensions.gtile';
 function getSettings() {
 /*
     let dir = Extension.dir.get_child('schemas').get_path();
-	global.log(dir);
     let source = Gio.SettingsSchemaSource.new_from_directory(dir,
 			Gio.SettingsSchemaSource.get_default(),
 			false);
@@ -23,7 +22,6 @@ function getSettings() {
 		throw new Error('Schema missing.');
 	}
 */
-    global.log(GTILE_SCHEMA);    
     return new Gio.Settings({
 		schema: GTILE_SCHEMA
 	});

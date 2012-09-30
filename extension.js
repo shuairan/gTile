@@ -112,7 +112,7 @@ function enable() {
     tracker.connect('notify::focus-app', Lang.bind(this, this._onFocus));
 
     Main.panel._rightBox.insert_child_at_index(launcher.actor, 0);	
-global.log(mySettings);
+    
     // Key Bindings
     for(key in key_bindings) {
         global.display.add_keybinding(key,
