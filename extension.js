@@ -116,7 +116,6 @@ function enable() {
     // Key Bindings
     for(key in key_bindings) {
         global.display.add_keybinding(key,
-            //mySettings,
             GTILE_SCHEMA,
             Meta.KeyBindingFlags.NONE,
             key_bindings[key]

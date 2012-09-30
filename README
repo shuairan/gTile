@@ -4,7 +4,9 @@
                             vibou
                                 
            With the help of the gnome-shell community
-           
+                           
+                  cinnamon-fork by shuairan
+
 CHANGE LOGS:
     V12:
     Correct small bug on auto tile where monitor height was considered without gnome-panel on primaryMonitor
