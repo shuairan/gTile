@@ -1,0 +1,5 @@
+sudo cp schemas/org.cinnamon.extensions.gtile.gschema.xml /usr/share/glib-2.0/schemas/
+sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
+
+mkdir ~/.local/share/cinnamon/extensions/gTile@shuairan
+cp -r * ~/.local/share/cinnamon/extensions/gTile@shuairan/
