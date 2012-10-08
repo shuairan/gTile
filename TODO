@@ -1,7 +1,12 @@
 TODO and Known Issues
 
-* position of panel is not determined correctly (its assumed to be top)
+* position of panel is not determined correctly (its assumed to be top) 
+        -> Main.panel.bottomPosition = true/false
+        -> Main.panel2 // if there are two panels enabled
 * there seems to be a small offset to the left
+        -> maybe a hardcoded default border size which differs in gnome-shell and cinnamon? 
+* Preview has a different ratio than the actual screen -> improve that!
+        -> also take care of multimonitor environments! 
 
 ---
 
