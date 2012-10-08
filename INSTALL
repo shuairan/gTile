@@ -1,3 +1,6 @@
+# check that you are using Cinnamon 1.6.0/1.6.1
+cinnamon --version
+
 # Install schema
 sudo cp schemas/org.cinnamon.extensions.gtile.gschema.xml /usr/share/glib-2.0/schemas/
 sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
