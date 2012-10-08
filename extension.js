@@ -309,11 +309,11 @@ function move_maximize_window(metaWindow,x,y)
 function move_resize_window(metaWindow,x,y,width,height)
 {
     let borderX,borderY,vBorderX,vBorderY;
-    [borderX,borderY] = this._getInvisibleBorderPadding(metaWindow);
+//    [borderX,borderY] = this._getInvisibleBorderPadding(metaWindow);
     [vBorderX,vBorderY] = this._getVisibleBorderPadding(metaWindow);
-
-    x = x - borderX;
-    y = y - borderY;
+    
+    x = x; //- borderX;
+    y = y; //- borderY;
     
     width = width - vBorderX;
     height = height - vBorderY ;
