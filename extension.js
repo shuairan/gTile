@@ -1130,7 +1130,6 @@ Grid.prototype = {
 	
 	 _onResize: function(actor, event)
 	 {
-	    global.log('resize-done: '+actor);
 	    refreshGrids();
         if(gridSettings[SETTINGS_AUTO_CLOSE])
         {
@@ -1331,11 +1330,15 @@ GridElementDelegate.prototype = {
 	    
 	    let offsetY = (isPrimaryMonitor(monitor)) ? Main.panel.actor.height : 0;
 	    
-	    let areaWidth = (monitor.width/nbCols)*((maxX-minX)+1);
+        let areaWidth = (monitor.width/nbCols)*((maxX-minX)+1);
 		let areaHeight = ((monitor.height-offsetY)/nbRows)*((maxY-minY)+1);
 		let areaX = monitor.x + (minX*(monitor.width/nbCols));
-		let areaY = offsetY+monitor.y + (minY*((monitor.height-offsetY)/nbRows));
-		
+		let areaY = monitor.y + (minY*((monitor.height-offsetY)/nbRows));
+        
+        if (Main.panel.bottomPosition == false) {
+		    areaY += offsetY;
+        }
+
 		return [areaX,areaY,areaWidth,areaHeight];
 	},
 	
