@@ -1329,14 +1329,16 @@ GridElementDelegate.prototype = {
 	    let monitor = fromGridElement.monitor;
 	    
 	    let offsetY = (isPrimaryMonitor(monitor)) ? Main.panel.actor.height : 0;
-	    
-        let areaWidth = (monitor.width/nbCols)*((maxX-minX)+1);
-		let areaHeight = ((monitor.height-offsetY)/nbRows)*((maxY-minY)+1);
-		let areaX = monitor.x + (minX*(monitor.width/nbCols));
-		let areaY = monitor.y + (minY*((monitor.height-offsetY)/nbRows));
+	    let offsetY2 = (isPrimaryMonitor(monitor) && Main.panel2) ? Main.panel2.actor.height : 0;
+        let offsetTotal = offsetY + offsetY2;
         
-        if (Main.panel.bottomPosition == false) {
-		    areaY += offsetY;
+        let areaWidth = (monitor.width/nbCols)*((maxX-minX)+1);
+		let areaHeight = ((monitor.height-offsetTotal)/nbRows)*((maxY-minY)+1);
+		let areaX = monitor.x + (minX*(monitor.width/nbCols));
+		let areaY = monitor.y + (minY*((monitor.height-offsetTotal)/nbRows));
+        
+        if (Main.panel.bottomPosition == false) { //panel-position is top
+            areaY += offsetY;
         }
 
 		return [areaX,areaY,areaWidth,areaHeight];
