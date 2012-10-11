@@ -9,39 +9,31 @@ gTile
            With the help of the gnome-shell community
                            
                   cinnamon-fork by shuairan
+
+                 With the help of some coffee
 ---------------------------------------------------------------
 
-**CHANGE LOGS:**
+**Usage**:
 
-* V12:
-    Correct small bug on auto tile where monitor height was considered without gnome-panel on primaryMonitor
+    [Super]+[Space] opens gTile
 
-* V11:
-    AutoTile function : 2 new auto tile features + Replace Animation and auto close text by icons
-    
-* V10: 
-    Now gTile follows your focus window !! Thanks to Claus Beerta he implements it in a branch.
-    I change the implementation so that it works with  multi-screen and I also added animations.
-    
-* V9:
-    Not validated
-    
-    However he added the keybinding in settings (into the file extension.js) but it s still buggy I think
-    So I let it for those who wants to try it.
+    for settings: look below
 
-* V8:
-    Correct bug where Desktop can be tile
-    3x2 button added by default
-    
-* V7:
-    Add Auto-close once resize
-    Add Smooth animation when toggle extension
-    New icon
-    
-    (/!\ auto-close may cause some bugs so let me know if you had any thanks).
+
+**Changelog:**
+
+forked from V12 [vibou.gTile](https://github.com/vibou/vibou.gTile) (for original change log look there)
+
+* V12:0.2
+    + added support for different panel positions of cinnamon (top,bottom,both)
+
+* V12:0.1
+    + added support for cinnamon
+    + fixed small offset
 
 -----
-https://extensions.gnome.org/extension/28/gtile/
+
+**Settings:**
 
 To configure gTile open the file extension.js
 go down to SETTINGS comments
