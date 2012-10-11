@@ -729,12 +729,16 @@ AutoTileMainAndList.prototype = {
         
         let monitor = this.grid.monitor;
         let offsetY = (isPrimaryMonitor(monitor)) ? Main.panel.actor.height : 0;
-        
+        let offsetY2 = (isPrimaryMonitor(monitor) && Main.panel2) ? Main.panel2.actor.height : 0;
+        let offsetTotal = offsetY + offsetY2;
+
         let windows = getNotFocusedWindowsOfMonitor(monitor);
         
-        move_resize_window(focusMetaWindow,monitor.x,monitor.y+offsetY,monitor.width/2,monitor.height);
+        let startY = (Main.panel.bottomPosition) ? 0 : offsetY;
         
-        let winHeight = (monitor.height - offsetY)/(windows.length );
+        move_resize_window(focusMetaWindow,monitor.x,monitor.y+startY,monitor.width/2,monitor.height);
+        
+        let winHeight = (monitor.height - offsetTotal)/(windows.length );
         let countWin = 0;
     
         for(let windowIdx in windows)
@@ -744,7 +748,7 @@ AutoTileMainAndList.prototype = {
             let layer = metaWindow.get_layer();
             global.log(metaWindow.get_title()+" "+wm_type+" "+layer);*/
             
-            let newOffset = offsetY + (countWin * winHeight);
+            let newOffset = startY + (countWin * winHeight);
             
             reset_window(metaWindow);
             
@@ -784,15 +788,18 @@ AutoTileTwoList.prototype = {
         
         let monitor = this.grid.monitor;
         let offsetY = (isPrimaryMonitor(monitor)) ? Main.panel.actor.height : 0;
+        let offsetY2 = (isPrimaryMonitor(monitor) && Main.panel2) ? Main.panel2.actor.height : 0;
+        let offsetTotal = offsetY + offsetY2;
+        let startY = (Main.panel.bottomPosition) ? 0 : offsetY;
         
         let windows = getNotFocusedWindowsOfMonitor(monitor);//getWindowsOfMonitor(monitor);
         let nbWindowOnEachSide = Math.ceil((windows.length + 1) / 2);
-        let winHeight = (monitor.height - offsetY)/nbWindowOnEachSide;
+        let winHeight = (monitor.height - offsetTotal)/nbWindowOnEachSide;
         
         let countWin = 0;
         
         let xOffset = countWin%2 * monitor.width/2;
-        let yOffset = offsetY + (Math.floor(countWin/2) * winHeight);
+        let yOffset = startY + (Math.floor(countWin/2) * winHeight);
         
         move_resize_window(focusMetaWindow,monitor.x+xOffset,monitor.y+yOffset,monitor.width/2,winHeight);
         
@@ -806,7 +813,7 @@ AutoTileTwoList.prototype = {
             global.log(metaWindow.get_title()+" "+wm_type+" "+layer);*/
             
             xOffset = countWin%2 * monitor.width/2;
-            yOffset = offsetY + (Math.floor(countWin/2) * winHeight);
+            yOffset = startY + (Math.floor(countWin/2) * winHeight);
             
             reset_window(metaWindow);
             
