@@ -1,4 +1,3 @@
-
 gTile
 -----
 
@@ -15,19 +14,19 @@ gTile
 
 **Usage**:
 
-    [Super]+[Space] opens gTile
-
-    for settings: look below
+  [Super]+[Space] opens gTile
+  
+  for settings: look below
 
 
 **Changelog:**
 
-forked from V12 [vibou.gTile](https://github.com/vibou/vibou.gTile) (for original change log look there)
+forked from V12 [vibou.gTile](https://github.com/vibou/vibou.gTile) (for original changelog look there)
 
-* V12:0.2
+* v0.2
     + added support for different panel positions of cinnamon (top,bottom,both)
 
-* V12:0.1
+* v0.1
     + added support for cinnamon
     + fixed small offset
 
