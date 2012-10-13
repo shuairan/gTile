@@ -25,6 +25,7 @@ forked from V12 [vibou.gTile](https://github.com/vibou/vibou.gTile) (for origina
 
 * v0.2
     + added support for different panel positions of cinnamon (top,bottom,both)
+    + panel icon is now displayed
 
 * v0.1
     + added support for cinnamon
