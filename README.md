@@ -1,5 +1,6 @@
 gTile
 -----
+for cinnamon 1.6.x
 
 ---------------------------------------------------------------
              This extension has been developped by
@@ -11,6 +12,7 @@ gTile
 
                  With the help of some coffee
 ---------------------------------------------------------------
+http://cinnamon-spices.linuxmint.com/extensions/view/21
 
 **Usage**:
 
