@@ -2,6 +2,6 @@
     "cinnamon-version": ["1.6.0", "1.6.1"], 
     "uuid": "gTile@shuairan", 
     "name": "gTile", 
-    "description": "Tile your windows as you like. It even supports multiscreen ! -EDIT: - See README file for configuration -", 
-    "url" : "https://github.com/shuairan/vibou.gTile"
+    "description": "Tile your windows as you like. It even supports multiscreen ! -EDIT: - See README.md file for configuration -", 
+    "url" : "https://github.com/shuairan/gTile"
 }
