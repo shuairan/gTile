@@ -110,8 +110,9 @@ function enable() {
     initGrids(); 
 
     tracker.connect('notify::focus-app', Lang.bind(this, this._onFocus));
-
-    Main.panel._rightBox.insert_child_at_index(launcher.actor, 0);	
+    
+    let _children = Main.panel._rightBox.get_children();
+    Main.panel._rightBox.insert_actor(launcher.actor, _children.length - 1 );
     
     // Key Bindings
     for(key in key_bindings) {
