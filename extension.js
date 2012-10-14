@@ -910,11 +910,12 @@ Grid.prototype = {
 		
 		this.actor.connect('enter-event',Lang.bind(this,this._onMouseEnter));
 		this.actor.connect('leave-event',Lang.bind(this,this._onMouseLeave));
-		//this.actor.connect('key-press-event', Lang.bind(this, this._globalKeyPressEvent));
+		this.actor.connect('key-press-event', Lang.bind(this, this._globalKeyPressEvent));
+		Main.uiGroup.add_actor(this.actor);
 		
-		this.topbar = new TopBar(title);
+        this.topbar = new TopBar(title);
 		
-		this.bottombar = new St.Table({ homogeneous: true,
+        this.bottombar = new St.Table({ homogeneous: true,
                                     style_class: 'bottom-box',
                                     can_focus: true,
                                     track_hover: true,
@@ -1171,6 +1172,7 @@ Grid.prototype = {
 	},
 	
 	_globalKeyPressEvent : function(actor, event) {
+        global.log("KEY PRESSED!");
         let symbol = event.get_key_symbol();
         //global.log("Escape pressed: "+symbol);
         if (symbol == Clutter.Escape) {
