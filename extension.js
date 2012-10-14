@@ -25,12 +25,19 @@ const Tweener = imports.ui.tweener;
 const Workspace = imports.ui.workspace;
 const gTile = imports.ui.extensionSystem.extensions["gTile@shuairan"];
 const Utils = gTile.utils;
+const Tooltips = imports.ui.tooltips;
 
 const GTILE_SCHEMA = 'org.cinnamon.extensions.gtile';
 
 const SETTINGS_GRID_SIZE = 'grid-size';
 const SETTINGS_AUTO_CLOSE = 'auto-close';
 const SETTINGS_ANIMATION = 'animation';
+
+const TOOLTIPS = new Array();
+      TOOLTIPS[SETTINGS_AUTO_CLOSE] = 'Auto close';
+      TOOLTIPS[SETTINGS_ANIMATION] = 'Animations';
+      TOOLTIPS['action-main-list'] = 'Auto tile main and list';
+      TOOLTIPS['action-two-list'] = 'Auto tile two lists';
 
 let status;
 let launcher;
@@ -648,7 +655,12 @@ ToggleSettingsButton.prototype = {
         this._update();
         this.actor.add_actor(this.icon);
         this.actor.connect('button-press-event', Lang.bind(this,this._onButtonPress));
-        this.connect('update-toggle', Lang.bind(this,this._update))
+        this.connect('update-toggle', Lang.bind(this,this._update));
+        
+        if (TOOLTIPS[property]) {
+            this._tooltip = new Tooltips.Tooltip(this.actor, TOOLTIPS[property]); 
+        }
+
     },
     
     _update : function()
@@ -694,6 +706,9 @@ ActionButton.prototype = {
         this.actor.add_actor(this.icon);
         this.actor.connect('button-press-event', Lang.bind(this,this._onButtonPress));
         
+        if (TOOLTIPS[classname]) {
+            this._tooltip = new Tooltips.Tooltip(this.actor, TOOLTIPS[classname]); 
+        }
     },
     
      _onButtonPress : function()
