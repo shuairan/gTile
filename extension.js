@@ -23,8 +23,8 @@ const Clutter = imports.gi.Clutter;
 const Signals = imports.signals;
 const Tweener = imports.ui.tweener;
 const Workspace = imports.ui.workspace;
-const gTile = imports.ui.extensionSystem.extensions["gTile@shuairan"];
-const Utils = gTile.utils;
+const gTile_extension = imports.ui.extensionSystem.extensions["gTile@shuairan"];
+const Utils = gTile_extension.utils;
 const Tooltips = imports.ui.tooltips;
 
 const GTILE_SCHEMA = 'org.cinnamon.extensions.gtile';
@@ -95,6 +95,52 @@ function initSettings()
 /*****************************************************************
                             FUNCTIONS
 *****************************************************************/
+
+function GTile() {
+    this._init();
+}
+
+GTile.prototype = {
+    _init: function() {
+        this.actor = new St.BoxLayout({style_class: 'grid-preview'});
+        Main.uiGroup.add_actor(this.actor);
+
+        this.actor.connect('key-press-event', Lang.bind(this, this._onKeyPressEvent));
+        //eventHandler.connect('button-press-event', Lang.bind(this, this._onButtonPressEvent));
+        //eventHandler.connect('scroll-event', Lang.bind(this, this._onScrollEvent));
+        //eventHandler.connect('motion-event', Lang.bind(this, this._onMotionEvent));
+        //Clutter.grab_pointer(this.actor);
+        Clutter.grab_keyboard(this.actor);
+    },
+    
+    show: function() {
+        global.log("_show");
+        this.actor.show();
+        this.actor.visible = true;
+        //Clutter.grab_keyboard(this.actor);
+        Main.pushModal(this.actor);
+    },
+
+    hide: function() {
+        global.log("_hide");
+        this.actor.hide();
+        this.actor.visible = false;
+        //Clutter.ungrab_pointer(this.actor);
+        //Clutter.ungrab_keyboard(this.actor);
+        //hideTiling();
+        Main.popModal(this.actor);
+    },
+
+    _onKeyPressEvent: function (actor, event) {
+        global.log("KEY PRESSED");
+        global.log(event.get_key_symbol());
+        if (event.get_key_symbol() == Clutter.Escape)
+            hideTiling();
+        return true;
+    },
+}
+Signals.addSignalMethods(GTile.prototype);
+
 function init()
 {
 
@@ -108,8 +154,9 @@ function enable() {
     nbCols = 4;
     nbRows = 4;
 
-    area = new St.BoxLayout({style_class: 'grid-preview'});
-    Main.uiGroup.add_actor(area);
+    //area = new St.BoxLayout({style_class: 'grid-preview'});
+    //Main.uiGroup.add_actor(area);
+    area = new GTile();
 
     launcher = new GTileButton('tiling-icon');
 
@@ -418,7 +465,6 @@ function _onFocus()
         //global.log("Connect window: "+window.get_title());
         focusMetaWindow = window;
         focusMetaWindowConnections.push(focusMetaWindow.connect('notify::title',Lang.bind(this,this._onFocus)));
-        
         let actor = focusMetaWindow.get_compositor_private();
         if(actor)
         {
@@ -459,6 +505,7 @@ function _onFocus()
 
 function showTiling()
 {
+    global.log("SHOW");
     focusMetaWindow = getFocusApp();
     let wm_class = focusMetaWindow.get_wm_class();
     let wm_type = focusMetaWindow.get_window_type();
@@ -466,7 +513,8 @@ function showTiling()
         
     //global.log("type:"+wm_type+" class:"+wm_class+" layer:"+layer);
     //global.log("focus app: "+focusMetaWindow);
-    this.area.visible = true;
+    //this.area.visible = true;
+    this.area.show();
 	if(focusMetaWindow && wm_type != 1 && layer > 0)
 	{	    
 	     for(monitorIdx in monitors)
@@ -494,9 +542,8 @@ function showTiling()
 	            Math.floor(pos_x - grid.actor.width / 2), 
 	            Math.floor(pos_y - grid.actor.height / 2)
                 );
-            
 	        
-            grid.show(); 
+            grid.show();
 	    }
 	    
 	    this._onFocus();
@@ -504,11 +551,12 @@ function showTiling()
 		launcher.activate();
 	}
 	
-	moveGrids();
+    moveGrids();
 }
 
 function hideTiling()
 {	
+    global.log("HIDE");
 	for(let gridIdx in grids)
 	{
 	    let grid = grids[gridIdx];
@@ -516,13 +564,12 @@ function hideTiling()
 	    grid.hide(false);
 	}
 	
-	this.area.visible = false;
-	
+	this.area.hide();
+    
     resetFocusMetaWindow();
     
     launcher.deactivate();
     status = false; 
-    
     
     Main.layoutManager._chrome.updateRegions();
 }
@@ -878,7 +925,7 @@ GridSettingsButton.prototype = {
         
         this.actor = new St.Button({style_class: 'settings-button',
                                                   reactive: true,
-                                                  can_focus:true,
+                                                  can_focus:false,
                                                   track_hover: true});
                                                   
         this.label = new St.Label({style_class: 'settings-label', reactive:true, can_focus:true, track_hover:true, text:this.text});
@@ -921,9 +968,8 @@ Grid.prototype = {
 		
 		this.actor.connect('enter-event',Lang.bind(this,this._onMouseEnter));
 		this.actor.connect('leave-event',Lang.bind(this,this._onMouseLeave));
-		this.actor.connect('key-press-event', Lang.bind(this, this._globalKeyPressEvent));
-		Main.uiGroup.add_actor(this.actor);
-		
+        //global.stage.connect('key-press-event', Lang.bind(this, function() { hideTiling()}));
+ this.actor.connect('scroll-event', Lang.bind(this, function() { hideTiling()}));
         this.topbar = new TopBar(title);
 		
         this.bottombar = new St.Table({ homogeneous: true,
@@ -1039,10 +1085,11 @@ Grid.prototype = {
 		
 		let width = (this.tableWidth / this.cols) - 2*this.borderwidth;
 		let height = (this.tableHeight / this.rows) - 2*this.borderwidth;
-	    
-	   	this.elementsDelegate = new GridElementDelegate();
-	   	this.elementsDelegate.connect('resize-done', Lang.bind(this, this._onResize));
-		for(let r = 0; r < this.rows; r++)
+	   	
+        this.elementsDelegate = new GridElementDelegate();
+        this.elementsDelegate.connect('resize-done', Lang.bind(this, this._onResize));
+		
+        for(let r = 0; r < this.rows; r++)
 		{
 			for(let c = 0; c < this.cols; c++)
 			{
@@ -1058,7 +1105,8 @@ Grid.prototype = {
                 this.table.add(element.actor,{row: r, col: c,x_fill:false, y_fill:false});
                 element.show();
 			}
-		}		
+		}	
+
 	},
 	
 	refresh : function()
@@ -1105,8 +1153,10 @@ Grid.prototype = {
             this.actor.visible = true;
             this.actor.scale_y = this.normalScaleY;
         }
-        
          this.interceptHide = false;
+		//this.actor.connect('key-press-event', Lang.bind(this, this._globalKeyPressEvent));
+        //global.stage.connect('key-press-event', Lang.bind(this, this._globalKeyPressEvent));
+        
 	},
 	
 	hide : function(immediate)
@@ -1185,13 +1235,13 @@ Grid.prototype = {
 	_globalKeyPressEvent : function(actor, event) {
         global.log("KEY PRESSED!");
         let symbol = event.get_key_symbol();
-        //global.log("Escape pressed: "+symbol);
+        global.log("Escape pressed: "+symbol);
         if (symbol == Clutter.Escape) {
-            
             hideTiling();    
             launcher.reset();
             return true; 
         }
+
         return false;
     },
 	
@@ -1374,11 +1424,11 @@ GridElementDelegate.prototype = {
 	    let areaWidth,areaHeight,areaX,areaY;
 	    [areaX,areaY,areaWidth,areaHeight] = this._computeAreaPositionSize(fromGridElement,toGridElement);
 				    
-		area.add_style_pseudo_class('activate');
+		area.actor.add_style_pseudo_class('activate');
 		
 		if(gridSettings[SETTINGS_ANIMATION])
 		{
-		    Tweener.addTween(area,
+		    Tweener.addTween(area.actor,
                          { 
                            time: 0.2,
                            x:areaX,
@@ -1389,19 +1439,17 @@ GridElementDelegate.prototype = {
 		}
 		else
 		{
-		    area.width = areaWidth;
-		    area.height = areaHeight;
-		    area.x = areaX;
-		    area.y = areaY;
+		    area.actor.width = areaWidth;
+		    area.actor.height = areaHeight;
+		    area.actor.x = areaX;
+		    area.actor.y = areaY;
 		}
-		
-				                    
 		
 	},
 	
 	_hideArea : function()
 	{
-	   area.remove_style_pseudo_class('activate');
+	   area.actor.remove_style_pseudo_class('activate');
 	},
 	
 	_onHoverChanged : function(gridElement)
@@ -1494,7 +1542,7 @@ GridElement.prototype = {
 	
 	_clean : function()
 	{
-	    Main.uiGroup.remove_actor(this.area);
+	    Main.uiGroup.remove_actor(this.area.actor);
 	},
 	
 	_destroy : function()
