@@ -162,7 +162,9 @@
 .grid-preview:activate
 {
     background-color: rgba(241,122,73,0.4);
+    background-color: rgba(73,122,241,0.4);
     border: 1px solid rgba(217,108,59,0.8);
+    border: 1px solid rgba(59,108,217,0.8);
 }
 
 .bottom-box
