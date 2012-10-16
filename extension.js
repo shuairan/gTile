@@ -86,7 +86,7 @@ function initSettings()
     //gridSettings[SETTINGS_GRID_SIZE].push(myCustomButton);
 
     //You can change those settings to set whatever you want by default
-    gridSettings[SETTINGS_AUTO_CLOSE] = false;
+    gridSettings[SETTINGS_AUTO_CLOSE] = true;
     gridSettings[SETTINGS_ANIMATION] = true;
 
 }
