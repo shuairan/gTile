@@ -108,7 +108,6 @@ GTile.prototype = {
         //eventHandler.connect('scroll-event', Lang.bind(this, this._onScrollEvent));
         //eventHandler.connect('motion-event', Lang.bind(this, this._onMotionEvent));
         //Clutter.grab_pointer(this.actor);
-        Clutter.grab_keyboard(this.actor);
     },
     
     show: function() {
@@ -130,10 +129,15 @@ GTile.prototype = {
     },
 
     _onKeyPressEvent: function (actor, event) {
-        global.log("KEY PRESSED");
-        global.log(event.get_key_symbol());
-        if (event.get_key_symbol() == Clutter.Escape)
+        //global.log("KEY PRESSED");
+        //global.log(event.get_key_symbol());
+        let modifier = event.get_state();
+        if (event.get_key_symbol() == Clutter.Escape) {
             hideTiling();
+        }
+        if (event.get_key_symbol() == Clutter.space && modifier === Clutter.ModifierType.MOD4_MASK) {
+            hideTiling();
+        }
         return true;
     },
 }
