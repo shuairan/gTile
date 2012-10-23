@@ -325,7 +325,7 @@ function move_resize_window(metaWindow,x,y,width,height)
     
     width = width - vBorderX;
     height = height - vBorderY ;
-    
+
     /*win._overviewHint = {
                 x: actor.x,
                 y: actor.y,
@@ -392,7 +392,8 @@ function getNotFocusedWindowsOfMonitor(monitor)
 {
     let windows = global.get_window_actors().filter(function(w) {
             let wm_type = w.meta_window.get_window_type();
-            return  wm_type != 1 && w.meta_window.get_workspace() == global.screen.get_active_workspace()   && w.meta_window.showing_on_its_workspace() && monitors[w.meta_window.get_monitor()] == monitor && focusMetaWindow != w.meta_window
+            return  wm_type != 1 && w.meta_window.get_workspace() == global.screen.get_active_workspace() && w.meta_window.showing_on_its_workspace() && monitors[w.meta_window.get_monitor()] == monitor && focusMetaWindow != w.meta_window  && !w.meta_window.get_title().match(/^Conky/)
+
         });
         
     return windows;
@@ -402,7 +403,8 @@ function getWindowsOfMonitor(monitor)
 {
     let windows = global.get_window_actors().filter(function(w) {
             let wm_type = w.meta_window.get_window_type(); 
-            return  wm_type != 1  && w.meta_window.get_workspace() == global.screen.get_active_workspace() &&  w.meta_window.showing_on_its_workspace() && monitors[w.meta_window.get_monitor()] == monitor;
+            return  wm_type != 1 && w.meta_window.get_workspace() == global.screen.get_active_workspace() && w.meta_window.showing_on_its_workspace() && monitors[w.meta_window.get_monitor()] == monitor && !w.meta_window.get_title().match(/^Conky/)
+;
         });
         
     return windows;
