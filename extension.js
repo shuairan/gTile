@@ -40,7 +40,6 @@ const TOOLTIPS = new Array();
       TOOLTIPS['action-two-list'] = 'Auto tile two lists';
 
 let status;
-let launcher;
 let grids;
 let monitors;
 let tracker;
@@ -51,7 +50,6 @@ let focusMetaWindow = false;
 let focusWindowActor = false;
 let focusMetaWindowConnections = new Array();
 let focusMetaWindowPrivateConnections = new Array();
-let tracker;
 let gridSettings = new Object();
 let toggleSettingListener;
 
@@ -111,15 +109,11 @@ function enable() {
     area = new St.BoxLayout({style_class: 'grid-preview'});
     Main.uiGroup.add_actor(area);
 
-    launcher = new GTileButton('tiling-icon');
 
     initSettings();
     initGrids(); 
 
     tracker.connect('notify::focus-app', Lang.bind(this, this._onFocus));
-    
-    let _children = Main.panel._rightBox.get_children();
-    Main.panel._rightBox.insert_actor(launcher.actor, _children.length - 1 );
     
     // Key Bindings
     for(key in key_bindings) {
@@ -139,7 +133,6 @@ function disable()
     }
 
     destroyGrids();
-    Main.panel._rightBox.remove_actor(launcher.actor);
     resetFocusMetaWindow();
 }
 
@@ -503,7 +496,6 @@ function showTiling()
 	    
 	    this._onFocus();
 		status = true;
-		launcher.activate();
 	}
 	
 	moveGrids();
@@ -522,7 +514,6 @@ function hideTiling()
 	
     resetFocusMetaWindow();
     
-    launcher.deactivate();
     status = false; 
     
     
@@ -583,11 +574,13 @@ TopBar.prototype = {
         this._title = title;
         this._stlabel =  new St.Label({style_class: 'grid-title',text: this._title});
         this._iconBin = new St.Bin({ x_fill: false, y_fill: true });
-        this._closebutton = new GTileButton('close-button');
+	this._closeButton = new St.Button({style_class: 'close-button'});
+
+	this._closeButton.connect('button-release-event', Lang.bind(this, this._onCloseButtonClicked));
         
         this.actor.add(this._iconBin);
         this.actor.add(this._stlabel,{x_fill: true,expand: true});
-        this.actor.add(this._closebutton.actor,{x_fill: false,expand: false});
+        this.actor.add(this._closeButton, {x_fill: false, expand: false});
     },
     
     _set_title : function(title)
@@ -607,6 +600,10 @@ TopBar.prototype = {
          this._iconBin.set_size(24, 24);
          this._iconBin.child = this._icon;
     },
+
+   _onCloseButtonClicked: function(actor, event){
+        toggleTiling();
+   }
 };
 
 function ToggleSettingsButtonListener()
@@ -1189,7 +1186,6 @@ Grid.prototype = {
         if (symbol == Clutter.Escape) {
             
             hideTiling();    
-            launcher.reset();
             return true; 
         }
         return false;
@@ -1508,48 +1504,4 @@ GridElement.prototype = {
 		this.active = null;	
 	}
 	
-};
-
-function GTileButton(classname)
-{
-    this._init(classname);
-}
-
-GTileButton.prototype = {
-    __proto__: PanelMenu.ButtonBox.prototype,
-   
-   _init : function(classname){
-         PanelMenu.ButtonBox.prototype._init.call(this, { reactive: true,
-                                               can_focus: true,
-                                               track_hover: true,
-                                               style_class: classname});
-                                               
-        this.actor.connect('button-press-event', Lang.bind(this, this._onButtonPress));
-   },
-   
-   reset : function()
-   {
-        this.activated = false;
-        launcher.actor.remove_style_pseudo_class('activate');
-   },
-   
-    activate : function()
-    {
-        launcher.actor.add_style_pseudo_class('activate');
-    },
-
-    deactivate : function()
-    {
-        launcher.actor.remove_style_pseudo_class('activate');
-    },
-   
-   
-   _onButtonPress: function(actor, event){
-        toggleTiling();
-   },
-   
-   _destroy : function()
-	{
-	    this.activated = null;
-	}
 };
