@@ -383,24 +383,14 @@ function getWindowActor()
 
 function getNotFocusedWindowsOfMonitor(monitor)
 {
-    let windows = global.get_window_actors().filter(function(w) {
-            let wm_type = w.meta_window.get_window_type();
-            return  wm_type != 1 && w.meta_window.get_workspace() == global.screen.get_active_workspace() && w.meta_window.showing_on_its_workspace() && monitors[w.meta_window.get_monitor()] == monitor && focusMetaWindow != w.meta_window  && !w.meta_window.get_title().match(/^Conky/)
-
-        });
-        
-    return windows;
+    return Main.getTabList().filter(function(w) {
+                                        return focusMetaWindow!= w;
+                                    });
 }
 
 function getWindowsOfMonitor(monitor)
 {
-    let windows = global.get_window_actors().filter(function(w) {
-            let wm_type = w.meta_window.get_window_type(); 
-            return  wm_type != 1 && w.meta_window.get_workspace() == global.screen.get_active_workspace() && w.meta_window.showing_on_its_workspace() && monitors[w.meta_window.get_monitor()] == monitor && !w.meta_window.get_title().match(/^Conky/)
-;
-        });
-        
-    return windows;
+    return Main.getTabList();
 }
 
 function _onFocus()
@@ -427,7 +417,7 @@ function _onFocus()
         let title = focusMetaWindow.get_title();
         
         for(monitorIdx in monitors)
-	    {
+            {
 		    let monitor = monitors[monitorIdx];
 		    let key = getMonitorKey(monitor);
 		    let grid = grids[key];
@@ -758,7 +748,7 @@ AutoTileMainAndList.prototype = {
     
         for(let windowIdx in windows)
         {
-            let metaWindow = windows[windowIdx].meta_window;
+            let metaWindow = windows[windowIdx];
             /*let wm_type = metaWindow.get_window_type();
             let layer = metaWindow.get_layer();
             global.log(metaWindow.get_title()+" "+wm_type+" "+layer);*/
@@ -822,7 +812,7 @@ AutoTileTwoList.prototype = {
     
         for(let windowIdx in windows)
         {
-            let metaWindow = windows[windowIdx].meta_window;
+            let metaWindow = windows[windowIdx];
             /*let wm_type = metaWindow.get_window_type();
             let layer = metaWindow.get_layer();
             global.log(metaWindow.get_title()+" "+wm_type+" "+layer);*/
