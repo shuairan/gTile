@@ -1,6 +1,6 @@
 gTile
 -----
-for cinnamon 1.6.x
+for cinnamon 1.6
 
 ---------------------------------------------------------------
              This extension has been developped by
@@ -24,6 +24,12 @@ http://cinnamon-spices.linuxmint.com/extensions/view/21
 **Changelog:**
 
 forked from V12 [vibou.gTile](https://github.com/vibou/vibou.gTile) (for original changelog look there)
+
+* v0.3 thx to [dalcde](https://github.com/dalcde)
+    + fixed conky-bug
+    + changed compatiblity to match all 1.6 releases
+    + changed grid color to blue
+    + removed panel icon (use applet instead: https://github.com/dalcde/gTile-applet )
 
 * v0.2
     + added support for different panel positions of cinnamon (top,bottom,both)
