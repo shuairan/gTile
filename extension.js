@@ -962,7 +962,7 @@ Grid.prototype = {
 		this.actor.connect('enter-event',Lang.bind(this,this._onMouseEnter));
 		this.actor.connect('leave-event',Lang.bind(this,this._onMouseLeave));
         //global.stage.connect('key-press-event', Lang.bind(this, function() { hideTiling()}));
- this.actor.connect('scroll-event', Lang.bind(this, function() { hideTiling()}));
+        
         this.topbar = new TopBar(title);
 		
         this.bottombar = new St.Table({ homogeneous: true,
