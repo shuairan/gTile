@@ -733,8 +733,8 @@ AutoTileMainAndList.prototype = {
         reset_window(focusMetaWindow);
         
         let monitor = this.grid.monitor;
-        let offsetY = (isPrimaryMonitor(monitor)) ? Main.panel.actor.height : 0;
-        let offsetY2 = (isPrimaryMonitor(monitor) && Main.panel2) ? Main.panel2.actor.height : 0;
+        let offsetY = (isPrimaryMonitor(monitor) && !Main.panel.isHideable()) ? Main.panel.actor.height : 0;
+        let offsetY2 = (isPrimaryMonitor(monitor) && Main.panel2 && !Main.panel2.isHideable()) ? Main.panel2.actor.height : 0;
         let offsetTotal = offsetY + offsetY2;
 
         let windows = getNotFocusedWindowsOfMonitor(monitor);
@@ -792,8 +792,8 @@ AutoTileTwoList.prototype = {
         reset_window(focusMetaWindow);
         
         let monitor = this.grid.monitor;
-        let offsetY = (isPrimaryMonitor(monitor)) ? Main.panel.actor.height : 0;
-        let offsetY2 = (isPrimaryMonitor(monitor) && Main.panel2) ? Main.panel2.actor.height : 0;
+        let offsetY = (isPrimaryMonitor(monitor) && !Main.panel.isHideable()) ? Main.panel.actor.height : 0;
+        let offsetY2 = (isPrimaryMonitor(monitor) && Main.panel2 && !Main.panel2.isHideable()) ? Main.panel2.actor.height : 0;
         let offsetTotal = offsetY + offsetY2;
         let startY = (Main.panel.bottomPosition) ? 0 : offsetY;
         
@@ -1339,8 +1339,8 @@ GridElementDelegate.prototype = {
 	   
 	    let monitor = fromGridElement.monitor;
 	    
-	    let offsetY = (isPrimaryMonitor(monitor)) ? Main.panel.actor.height : 0;
-	    let offsetY2 = (isPrimaryMonitor(monitor) && Main.panel2) ? Main.panel2.actor.height : 0;
+	    let offsetY = (isPrimaryMonitor(monitor) && !Main.panel.isHideable()) ? Main.panel.actor.height : 0;
+	    let offsetY2 = (isPrimaryMonitor(monitor) && Main.panel2 && !Main.panel.isHideable()) ? Main.panel2.actor.height : 0;
         let offsetTotal = offsetY + offsetY2;
         
         let areaWidth = (monitor.width/nbCols)*((maxX-minX)+1);
