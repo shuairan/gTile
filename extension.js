@@ -16,7 +16,8 @@ const Cinnamon = imports.gi.Cinnamon;
 const WindowManager = imports.ui.windowManager;
 const MessageTray = imports.ui.messageTray;
 const Lang = imports.lang;
-const PanelMenu = imports.ui.panel;
+/*panelMenu.js has been removed in Cinnamon 1.8.x*/
+/*const PanelMenu = imports.ui.panelMenu;*/
 const DND = imports.ui.dnd;
 const Meta = imports.gi.Meta;
 const Clutter = imports.gi.Clutter;
