@@ -310,7 +310,6 @@ function move_maximize_window(metaWindow,x,y)
 function move_resize_window(metaWindow,x,y,width,height)
 {
     let borderX,borderY,vBorderX,vBorderY;
-//    [borderX,borderY] = this._getInvisibleBorderPadding(metaWindow);
     [vBorderX,vBorderY] = this._getVisibleBorderPadding(metaWindow);
     
     x = x; //- borderX;
@@ -319,53 +318,9 @@ function move_resize_window(metaWindow,x,y,width,height)
     width = width - vBorderX;
     height = height - vBorderY ;
 
-    /*win._overviewHint = {
-                x: actor.x,
-                y: actor.y,
-                scale: actor.scale_x
-            }; TO TEST*/
-    
     metaWindow.resize(true,width,height);
     metaWindow.move_frame(true,x,y);
-    
-    /*let actor = metaWindow.get_compositor_private();
-                
-    let origX = actor.x;
-    let origY = actor.y;
-
-    
-
-    actor.x = origX;
-    actor.y = origY;
-            
-    Tweener.addTween(actor,{
-        time:0.2,
-        transition: "easeOutQuad",
-        opacity:0, 
-        onComplete:_onMovedAndResize,
-        onCompleteParams: [metaWindow,x,y,width,height]            
-    });*/
 }
-
-/*function _onMovedAndResize(metaWindow,x,y,width,height)
-{
-    metaWindow.unmaximize(Meta.MaximizeFlags.HORIZONTAL); 
-    metaWindow.unmaximize(Meta.MaximizeFlags.VERTICAL);
-    metaWindow.unmaximize(Meta.MaximizeFlags.HORIZONTAL | Meta.MaximizeFlags.VERTICAL);
-    
-    let actor = metaWindow.get_compositor_private();
-    actor.x = x;
-    actor.y = y;
-    
-    metaWindow.resize(true,width,height);
-    
-    Tweener.addTween(actor,{
-        time:0.2,
-        transition: "easeOutQuad",
-        opacity:255,
-        onComplete:updateRegions                
-    });   
-}*/
 
 function _isMyWindow(win)
 {
@@ -749,9 +704,6 @@ AutoTileMainAndList.prototype = {
         for(let windowIdx in windows)
         {
             let metaWindow = windows[windowIdx];
-            /*let wm_type = metaWindow.get_window_type();
-            let layer = metaWindow.get_layer();
-            global.log(metaWindow.get_title()+" "+wm_type+" "+layer);*/
             
             let newOffset = startY + (countWin * winHeight);
             
@@ -797,7 +749,7 @@ AutoTileTwoList.prototype = {
         let offsetTotal = offsetY + offsetY2;
         let startY = (Main.panel.bottomPosition) ? 0 : offsetY;
         
-        let windows = getNotFocusedWindowsOfMonitor(monitor);//getWindowsOfMonitor(monitor);
+        let windows = getNotFocusedWindowsOfMonitor(monitor);
         let nbWindowOnEachSide = Math.ceil((windows.length + 1) / 2);
         let winHeight = (monitor.height - offsetTotal)/nbWindowOnEachSide;
         
@@ -813,9 +765,6 @@ AutoTileTwoList.prototype = {
         for(let windowIdx in windows)
         {
             let metaWindow = windows[windowIdx];
-            /*let wm_type = metaWindow.get_window_type();
-            let layer = metaWindow.get_layer();
-            global.log(metaWindow.get_title()+" "+wm_type+" "+layer);*/
             
             xOffset = countWin%2 * monitor.width/2;
             yOffset = startY + (Math.floor(countWin/2) * winHeight);
@@ -1004,9 +953,6 @@ Grid.prototype = {
             
             action.connect('resize-done', Lang.bind(this,this._onResize));
             
-            /*action = new ActionScale(this);
-            action.actor.width = (this.tableWidth / nbTotalSettings) - this.borderwidth*2;
-            this.veryBottomBar.add(action.actor,{row:0, col:4,x_fill:false,y_fill:false});   */         
 		}
 		
 		
