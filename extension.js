@@ -25,10 +25,8 @@ const Signals = imports.signals;
 const Tweener = imports.ui.tweener;
 const Workspace = imports.ui.workspace;
 const gTile = imports.ui.extensionSystem.extensions["gTile@shuairan"];
-const Utils = gTile.utils;
 const Tooltips = imports.ui.tooltips;
-
-const GTILE_SCHEMA = 'org.cinnamon.extensions.gtile';
+const Settings = imports.ui.settings
 
 const SETTINGS_GRID_SIZE = 'grid-size';
 const SETTINGS_AUTO_CLOSE = 'auto-close';
@@ -56,14 +54,6 @@ let toggleSettingListener;
 
 let window_dragging=true;
 
-const mySettings = Utils.getSettings();
-
-const key_bindings = {
-    'show-toggle-tiling': function() {
-        toggleTiling();
-    }
-};
-
 
 /*****************************************************************
                             SETTINGS
@@ -88,6 +78,12 @@ function initSettings()
     gridSettings[SETTINGS_AUTO_CLOSE] = true;
     gridSettings[SETTINGS_ANIMATION] = true;
 
+	this.settings = new Settings.ExtensionSettings(this, "gTile@shuairan");
+	this.settings.bindProperty(Settings.BindingDirection.IN,
+                         "hotkey",
+                         "hotkey",
+                         enableHotkey,
+                         null);
 }
 
 
@@ -110,31 +106,33 @@ function enable() {
     area = new St.BoxLayout({style_class: 'grid-preview'});
     Main.uiGroup.add_actor(area);
 
-
     initSettings();
     initGrids(); 
 
+    enableHotkey();
+
     tracker.connect('notify::focus-app', Lang.bind(this, this._onFocus));
-    
-    // Key Bindings
-    for(key in key_bindings) {
-        global.display.add_keybinding(key,
-            GTILE_SCHEMA,
-            Meta.KeyBindingFlags.NONE,
-            key_bindings[key]
-        );
-    }
+    global.log("KEY BINDNGS");
+
+
 }
 
 function disable() 
 {
     // Key Bindings
-    for(key in key_bindings) {
-        global.display.remove_keybinding(key);
-    }
-
+	disableHotkey();
+     
     destroyGrids();
     resetFocusMetaWindow();
+}
+
+function enableHotkey() {
+	disableHotkey();
+	Main.keybindingManager.addHotKey("gTile", this.hotkey, Lang.bind(this, toggleTiling));
+}
+
+function disableHotkey() {
+	Main.keybindingManager.removeHotKey("gTile");
 }
 
 function resetFocusMetaWindow()
