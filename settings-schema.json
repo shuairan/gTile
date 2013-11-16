@@ -1,0 +1,7 @@
+{
+ "hotkey": {
+    "type" : "keybinding",
+    "default" : "<Super>space",
+    "description" : "Global Hotkey for gTile"
+ }
+}
