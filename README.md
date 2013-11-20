@@ -1,6 +1,6 @@
 gTile
 -----
-for cinnamon 1.6
+for cinnamon 1.8 and 2.0
 
 ---------------------------------------------------------------
              This extension has been developped by
@@ -18,12 +18,17 @@ http://cinnamon-spices.linuxmint.com/extensions/view/21
 
   [Super]+[Space] opens gTile
   
-  for settings: look below
+  you can change this on extension-settings.
+
 
 
 **Changelog:**
 
 forked from V12 [vibou.gTile](https://github.com/vibou/vibou.gTile) (for original changelog look there)
+
+* v0.5 
+    + support for latest cinnamon >1.8
+    + settings-system is used (configure keyboard shortcut via extension settings)
 
 * v0.3 thx to [dalcde](https://github.com/dalcde)
     + fixed conky-bug
@@ -41,11 +46,12 @@ forked from V12 [vibou.gTile](https://github.com/vibou/vibou.gTile) (for origina
 
 -----
 
-**Settings:**
+**Additional Settings:**
 
-To configure gTile open the file extension.js
-go down to SETTINGS comments
+To configure gTile open the file extension.js  
+go down to SETTINGS comments  
 and edit this part of code:
+    
 
     /*****************************************************************
                             SETTINGS
