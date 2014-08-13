@@ -1,5 +1,5 @@
 {
-    "cinnamon-version": ["1.8", "2.0"], 
+    "cinnamon-version": ["1.8", "2.0", "2.2"], 
     "uuid": "gTile@shuairan", 
     "name": "gTile", 
     "description": "Tile your windows as you like. It even supports multiscreen ! -EDIT: - See README.md file for configuration -", 
