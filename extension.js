@@ -114,9 +114,7 @@ function enable() {
     enableHotkey();
 
     tracker.connect('notify::focus-app', Lang.bind(this, this._onFocus));
-    global.log("KEY BINDNGS");
-
-
+    //global.log("KEY BINDNGS");
 }
 
 function disable() 
@@ -472,14 +470,13 @@ function hideTiling()
     
     status = false; 
     
-    
     Main.layoutManager._chrome.updateRegions();
 }
 
 function toggleTiling()
 {
 	if(status)
-	{		
+	{
 		hideTiling();
 	}
 	else
@@ -1052,10 +1049,13 @@ Grid.prototype = {
         }
         
          this.interceptHide = false;
+		
+		 Main.keybindingManager.addHotKey("gTile-close", 'Escape', Lang.bind(this, toggleTiling));
 	},
 	
 	hide : function(immediate)
 	{
+		Main.keybindingManager.removeHotKey("gTile-close");
 	    this.elementsDelegate.reset();
 	    let time = (gridSettings[SETTINGS_ANIMATION] && !immediate) ? 0.3 : 0;
 	    //global.log(time);
@@ -1079,6 +1079,7 @@ Grid.prototype = {
             //this.actor.y = 0; 
             this.actor.scale_y = 0; 
 	    }
+	
 	},
 	
 	_onHideComplete : function()
@@ -1452,3 +1453,4 @@ GridElement.prototype = {
 	}
 	
 };
+
