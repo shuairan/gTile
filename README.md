@@ -1,6 +1,6 @@
 gTile
 -----
-for cinnamon 1.8, 2.0 and 2.2
+for cinnamon 2.0 and 2.2
 
 ---------------------------------------------------------------
              This extension has been developped by
@@ -26,8 +26,9 @@ http://cinnamon-spices.linuxmint.com/extensions/view/21
 
 forked from V12 [vibou.gTile](https://github.com/vibou/vibou.gTile) (for original changelog look there)
 
-* v0.6
-    + merge upstream changes
+* v0.6{wip}
+    + merge upstream changes from vibou.gTile (V21)
+    + exclude some apps by detecting wm_class. This is a wild guess to find apps which should not be tiled.
     +
 
 * v0.5 
