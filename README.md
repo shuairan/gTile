@@ -1,6 +1,6 @@
 gTile
 -----
-for cinnamon 1.8 and 2.0
+for cinnamon 1.8, 2.0 and 2.2
 
 ---------------------------------------------------------------
              This extension has been developped by
@@ -25,6 +25,10 @@ http://cinnamon-spices.linuxmint.com/extensions/view/21
 **Changelog:**
 
 forked from V12 [vibou.gTile](https://github.com/vibou/vibou.gTile) (for original changelog look there)
+
+* v0.6
+    + merge upstream changes
+    +
 
 * v0.5 
     + support for latest cinnamon >1.8

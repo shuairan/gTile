@@ -49,8 +49,15 @@ let focusMetaWindow = false;
 let focusWindowActor = false;
 let focusMetaWindowConnections = new Array();
 let focusMetaWindowPrivateConnections = new Array();
+let tracker;
 let gridSettings = new Object();
 let toggleSettingListener;
+
+
+//Hangouts workaround
+let excludedApplications = new Array(
+	"Unknown" 
+);
 
 let window_dragging=true;
 
@@ -167,7 +174,7 @@ function resetFocusMetaWindow()
 function initGrids()
 {
 	grids = new Array();
-	for(monitorIdx in monitors)
+	for(let monitorIdx in monitors)
 	{
 		let monitor = monitors[monitorIdx];
 		let grid = new Grid(monitorIdx,monitor,"gTile", nbCols, nbRows);
@@ -183,11 +190,11 @@ function initGrids()
 
 function destroyGrids()
 {
-    for(monitorIdx in monitors)
+    for(let monitorIdx in monitors)
 	{
 		let monitor = monitors[monitorIdx];
 		let key = getMonitorKey(monitor);
-		grid = grids[key];
+		let grid = grids[key];
 		grid.hide(true);
 		Main.layoutManager.removeChrome(grid.actor);
 	}
@@ -370,8 +377,8 @@ function _onFocus()
         let app = tracker.get_window_app(focusMetaWindow);
         let title = focusMetaWindow.get_title();
         
-        for(monitorIdx in monitors)
-            {
+        for(let monitorIdx in monitors)
+	    {
 		    let monitor = monitors[monitorIdx];
 		    let key = getMonitorKey(monitor);
 		    let grid = grids[key];
@@ -408,7 +415,7 @@ function showTiling()
     this.area.visible = true;
 	if(focusMetaWindow && wm_type != 1 && layer > 0)
 	{	    
-	     for(monitorIdx in monitors)
+	     for(let monitorIdx in monitors)
 	    {
 	        let monitor = monitors[monitorIdx];
 	        let key = getMonitorKey(monitor);
@@ -596,7 +603,7 @@ ToggleSettingsButton.prototype = {
         this.actor.add_actor(this.icon);
         this.property = property;
         this._update();
-        this.actor.add_actor(this.icon);
+        this.actor.add_actor(this.icon,{x_fill:true, y_fill:true});
         this.actor.connect('button-press-event', Lang.bind(this,this._onButtonPress));
         this.connect('update-toggle', Lang.bind(this,this._update));
         
@@ -1388,7 +1395,7 @@ GridElement.prototype = {
 		this.actor.connect('button-press-event', Lang.bind(this, this._onButtonPress));
 		this.actor.connect('notify::hover', Lang.bind(this, this._onHoverChanged));
 		
-		this.active = false;	
+		this.active = false;
 	},
 	
 	show : function ()

@@ -1,4 +1,4 @@
-# check that you are using Cinnamon 1.6.0/1.6.1
+# check your cinnamon version
 cinnamon --version
 
 # Install schema
