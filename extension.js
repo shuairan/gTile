@@ -54,11 +54,6 @@ let gridSettings = new Object();
 let toggleSettingListener;
 
 
-//Hangouts workaround
-let excludedApplications = new Array(
-	"Unknown" 
-);
-
 let window_dragging=true;
 
 
@@ -345,13 +340,23 @@ function getWindowActor()
 function getNotFocusedWindowsOfMonitor(monitor)
 {
     return Main.getTabList().filter(function(w) {
-                                        return focusMetaWindow!= w;
-                                    });
+			let wm_type = w.get_window_type();
+			let app = tracker.get_window_app(w);
+			if (app == null) { return false; }
+			return focusMetaWindow != w && w.get_wm_class() != null;	
+		});
 }
 
 function getWindowsOfMonitor(monitor)
 {
     return Main.getTabList();
+	return Main.getTabList().filter(function(w) {
+		if (w.get_wm_class() == null) {
+			global.log(w.get_title() + " has no wm-class");
+			return false;
+		  }
+		  return true;
+	});
 }
 
 function _onFocus()
