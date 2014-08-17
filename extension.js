@@ -1,7 +1,7 @@
 /*****************************************************************
 
              This extension has been developped by
-                            vibou
+            vibou and forked to cinnamon by shuairan
                                 
            With the help of the gnome-shell community
 

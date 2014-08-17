@@ -2,17 +2,9 @@ gTile
 -----
 for cinnamon 2.0 and 2.2
 
----------------------------------------------------------------
-             This extension has been developped by
-                            vibou
-                                
-           With the help of the gnome-shell community
-                           
-                  cinnamon-fork by shuairan
+This extension has been developped by vibou. Cinnamon-fork by shuairan.
 
-                 With the help of much coffee
----------------------------------------------------------------
-http://cinnamon-spices.linuxmint.com/extensions/view/21
+[Cinnamon Spices: gTile](http://cinnamon-spices.linuxmint.com/extensions/view/21)
 
 **Usage**:
 
