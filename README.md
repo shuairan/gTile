@@ -23,10 +23,11 @@ http://cinnamon-spices.linuxmint.com/extensions/view/21
   <kbd>Shift</kbd>+<kbd>ARROWS</kbd> select area  
   <kbd>Space</kbd> or <kbd>Enter</kbd> tile the selected area  
 
-**Additional Information**
-  Cinnamon has also a own window tiling function with various hotkeys [Learn about it](http://segfault.linuxmint.com/2013/07/new-window-tiling-and-snapping-functionality/)
-  
-  
+**Additional Information**:
+
+  Cinnamon has also a own window tiling function with various hotkeys [Learn more about it](http://segfault.linuxmint.com/2013/07/new-window-tiling-and-snapping-functionality/)  
+  this extension will provide an other way to tile your window, via a small overlay on your currently focused application
+
 **Changelog:**
 
 forked from V12 [vibou.gTile](https://github.com/vibou/vibou.gTile) (for original changelog look there)

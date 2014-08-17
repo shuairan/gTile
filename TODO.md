@@ -1,5 +1,6 @@
 TODO and Known Issues
 ---------------------
+(also checkout the [issues on github project page](https://github.com/shuairan/gTile/issues)
 
 * Preview has a different ratio than the actual screen -> improve that! <br />
         -> also take care of multimonitor environments! 
@@ -11,6 +12,7 @@ TODO and Known Issues
     + [2 Bottom Panels](http://cinnamon-spices.linuxmint.com/extensions/view/9)
     + [Panel-Span](http://cinnamon-spices.linuxmint.com/extensions/view/20)
 
+* Test compatibility with cinnamon 2.2 (High-Res mode!)
 
 FIXED ISSUES:
 -------------
