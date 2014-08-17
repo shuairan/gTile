@@ -128,6 +128,7 @@ function enable() {
     enableHotkey();
 
     tracker.connect('notify::focus-app', Lang.bind(this, this._onFocus));
+	global.screen.connect('monitors-changed', Lang.bind(this, reinitalize));
     //global.log("KEY BINDNGS");
 }
 
@@ -147,6 +148,12 @@ function enableHotkey() {
 
 function disableHotkey() {
 	Main.keybindingManager.removeHotKey("gTile");
+}
+
+function reinitalize() {
+    monitors = Main.layoutManager.monitors;
+	destroyGrids();
+	initGrids();
 }
 
 function resetFocusMetaWindow()
@@ -202,8 +209,11 @@ function destroyGrids()
 		let monitor = monitors[monitorIdx];
 		let key = getMonitorKey(monitor);
 		let grid = grids[key];
-		grid.hide(true);
-		Main.layoutManager.removeChrome(grid.actor);
+		global.log(typeof grid);
+		if (typeof grid != 'undefined') {
+			grid.hide(true);
+			Main.layoutManager.removeChrome(grid.actor);
+		}
 	}
 }
 
@@ -1163,10 +1173,9 @@ Grid.prototype = {
 	},
 	
 	_bindKeyControls : function() {
-		global.log("Bind Keys");
 		Main.keybindingManager.addHotKey("gTile-close", 'Escape', Lang.bind(this, toggleTiling));
-		Main.keybindingManager.addHotKey("gTile-tile1", 'space', Lang.bind(this, this._onKeyTile));
-		Main.keybindingManager.addHotKey("gTile-tile2", 'Return', Lang.bind(this, this._onKeyTile));
+		Main.keybindingManager.addHotKey("gTile-tile1", 'space', Lang.bind(this, this._keyTile));
+		Main.keybindingManager.addHotKey("gTile-tile2", 'Return', Lang.bind(this, this._keyTile));
 		for (let index in KEYCONTROL) {
 			let key = KEYCONTROL[index];
 			let type = index;
@@ -1175,7 +1184,6 @@ Grid.prototype = {
 	},
 
 	_removeKeyControls : function() {
-		global.log("Remove Keys");
 		this.rowKey = -1;
 		this.colKey = -1;
 		Main.keybindingManager.removeHotKey("gTile-close");
@@ -1188,8 +1196,7 @@ Grid.prototype = {
 	},
 
 	_onKeyPressEvent : function(type, key) {
-		global.log("BAR");
-		global.log("Key pressed: " + type + " - " + key);
+		//global.log("Key pressed: " + type + " - " + key);
 
 		let modifier = type.indexOf('meta', type.length - 'meta'.length) !== -1;
 		
@@ -1228,9 +1235,8 @@ Grid.prototype = {
 		this.keyElement._onHoverChanged();
 	},
 
-	_onKeyTile : function() {
+	_keyTile : function() {
 		if (this.keyElement) {
-			global.log("YOHAY!");
 			this.keyElement._onButtonPress();
 		}
 	},
