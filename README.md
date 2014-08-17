@@ -10,27 +10,32 @@ for cinnamon 2.0 and 2.2
                            
                   cinnamon-fork by shuairan
 
-                 With the help of some coffee
+                 With the help of much coffee
 ---------------------------------------------------------------
 http://cinnamon-spices.linuxmint.com/extensions/view/21
 
 **Usage**:
 
-  [Super]+[Space] opens gTile
+  <kbd>Super</kbd>+<kbd>Space</kbd> open gTile  (you can change this on extension-settings)  
+  then use mouse or keyboard:  
+  <kbd>Esc</kbd> close gTile  
+  <kbd>ARROWS</kbd> move with keyboard  
+  <kbd>Shift</kbd>+<kbd>ARROWS</kbd> select area  
+  <kbd>Space</kbd> or <kbd>Enter</kbd> tile the selected area  
+
+** Additional Information **
+  Cinnamon has also a own window tiling function with various hotkeys [Learn about it](http://segfault.linuxmint.com/2013/07/new-window-tiling-and-snapping-functionality/)
   
-  you can change this on extension-settings.
-
-
-
+  
 **Changelog:**
 
 forked from V12 [vibou.gTile](https://github.com/vibou/vibou.gTile) (for original changelog look there)
 
 * v0.6{wip}
-    + merge upstream changes from vibou.gTile (V21)
+    + merge some upstream changes from vibou.gTile (V21)
     + exclude some apps with no wm_class. This is a wild guess to find apps which should not be tiled (like Hangouts)
     + hide on escape
-    + add feature: select and tile by keyboard (move with Arrows, Shift+Arrow to select area, Spacebar to tile window)
+    + new feature: select and tile by keyboard (move with Arrows, Shift+Arrow to select area, space or enter to tile window)
 
 * v0.5 
     + support for latest cinnamon >1.8
