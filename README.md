@@ -23,7 +23,7 @@ http://cinnamon-spices.linuxmint.com/extensions/view/21
   <kbd>Shift</kbd>+<kbd>ARROWS</kbd> select area  
   <kbd>Space</kbd> or <kbd>Enter</kbd> tile the selected area  
 
-** Additional Information **
+**Additional Information**
   Cinnamon has also a own window tiling function with various hotkeys [Learn about it](http://segfault.linuxmint.com/2013/07/new-window-tiling-and-snapping-functionality/)
   
   

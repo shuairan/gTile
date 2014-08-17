@@ -1165,11 +1165,11 @@ Grid.prototype = {
 	_bindKeyControls : function() {
 		global.log("Bind Keys");
 		Main.keybindingManager.addHotKey("gTile-close", 'Escape', Lang.bind(this, toggleTiling));
-		Main.keybindingManager.addHotKey("gTile-tile", 'space', Lang.bind(this, this._onKeyTile));
+		Main.keybindingManager.addHotKey("gTile-tile1", 'space', Lang.bind(this, this._onKeyTile));
+		Main.keybindingManager.addHotKey("gTile-tile2", 'Return', Lang.bind(this, this._onKeyTile));
 		for (let index in KEYCONTROL) {
 			let key = KEYCONTROL[index];
 			let type = index;
-			global.log(type + " " + key);
 			Main.keybindingManager.addHotKey(type, key, Lang.bind(this, function(e) { this._onKeyPressEvent(type, key); }));
 		}
 	},
@@ -1179,7 +1179,8 @@ Grid.prototype = {
 		this.rowKey = -1;
 		this.colKey = -1;
 		Main.keybindingManager.removeHotKey("gTile-close");
-		Main.keybindingManager.removeHotKey("gTile-tile");
+		Main.keybindingManager.removeHotKey("gTile-tile1");
+		Main.keybindingManager.removeHotKey("gTile-tile2");
 		for (let type in KEYCONTROL) {
 			//let key = KEYCONTROL[type];
 			Main.keybindingManager.removeHotKey(type);
