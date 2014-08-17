@@ -38,6 +38,19 @@ const TOOLTIPS = new Array();
       TOOLTIPS['action-main-list'] = 'Auto tile main and list';
       TOOLTIPS['action-two-list'] = 'Auto tile two lists';
 
+const KEYCONTROL = new Array();
+	  KEYCONTROL['gTile-k-left'] = 'Left';
+	  KEYCONTROL['gTile-k-right'] = 'Right';
+	  KEYCONTROL['gTile-k-up'] = 'Up';
+	  KEYCONTROL['gTile-k-down'] = 'Down';
+let metaKey = '<Shift>';
+for (let type in KEYCONTROL) {
+	let key = KEYCONTROL[type];
+	KEYCONTROL[type+"-meta"] = metaKey+key;
+}
+			
+
+
 let status;
 let grids;
 let monitors;
@@ -86,6 +99,7 @@ function initSettings()
                          "hotkey",
                          enableHotkey,
                          null);
+
 }
 
 
@@ -858,6 +872,9 @@ Grid.prototype = {
        	this.tableWidth	= 220;
 		this.tableHeight = 200;
 		this.borderwidth = 2;
+		this.bindFns = {};
+		this.rowKey = -1;
+		this.colKey = -1;
 
 		this.actor = new St.BoxLayout({ vertical:true, 
 		                                style_class: 'grid-panel',
@@ -867,8 +884,10 @@ Grid.prototype = {
 		
 		this.actor.connect('enter-event',Lang.bind(this,this._onMouseEnter));
 		this.actor.connect('leave-event',Lang.bind(this,this._onMouseLeave));
+
 		//this.actor.connect('key-press-event', Lang.bind(this, this._globalKeyPressEvent));
-		
+		//global.stage.connect('key-press-event', Lang.bind(this, this._globalKeyPressEvent));
+
 		this.topbar = new TopBar(title);
 		
 		this.bottombar = new St.Table({ homogeneous: true,
@@ -1049,14 +1068,13 @@ Grid.prototype = {
         }
         
          this.interceptHide = false;
-		
-		 Main.keybindingManager.addHotKey("gTile-close", 'Escape', Lang.bind(this, toggleTiling));
+		 this._bindKeyControls();
 	},
 	
 	hide : function(immediate)
 	{
-		Main.keybindingManager.removeHotKey("gTile-close");
-	    this.elementsDelegate.reset();
+	    this._removeKeyControls();
+		this.elementsDelegate.reset();
 	    let time = (gridSettings[SETTINGS_ANIMATION] && !immediate) ? 0.3 : 0;
 	    //global.log(time);
 	    if(time > 0 )
@@ -1144,6 +1162,78 @@ Grid.prototype = {
         this.elementsDelegate.reset();   
 	},
 	
+	_bindKeyControls : function() {
+		global.log("Bind Keys");
+		Main.keybindingManager.addHotKey("gTile-close", 'Escape', Lang.bind(this, toggleTiling));
+		Main.keybindingManager.addHotKey("gTile-tile", 'space', Lang.bind(this, this._onKeyTile));
+		for (let index in KEYCONTROL) {
+			let key = KEYCONTROL[index];
+			let type = index;
+			global.log(type + " " + key);
+			Main.keybindingManager.addHotKey(type, key, Lang.bind(this, function(e) { this._onKeyPressEvent(type, key); }));
+		}
+	},
+
+	_removeKeyControls : function() {
+		global.log("Remove Keys");
+		this.rowKey = -1;
+		this.colKey = -1;
+		Main.keybindingManager.removeHotKey("gTile-close");
+		Main.keybindingManager.removeHotKey("gTile-tile");
+		for (let type in KEYCONTROL) {
+			//let key = KEYCONTROL[type];
+			Main.keybindingManager.removeHotKey(type);
+		}
+	},
+
+	_onKeyPressEvent : function(type, key) {
+		global.log("BAR");
+		global.log("Key pressed: " + type + " - " + key);
+
+		let modifier = type.indexOf('meta', type.length - 'meta'.length) !== -1;
+		
+		if (modifier && this.keyElement) {
+			global.log("MODIFIER pressed!");
+			if (!this.elementsDelegate.activated) {
+			  this.keyElement._onButtonPress();
+			}
+		}
+		else if (this.keyElement) {
+			this.elementsDelegate.reset();
+		}
+
+		switch(type) {
+			case 'gTile-k-right':
+			case 'gTile-k-right-meta':
+				this.colKey = Math.min(this.colKey+1, this.cols-1);
+				this.rowKey = (this.rowKey == -1) ? 0 : this.rowKey;
+				break;
+			case 'gTile-k-left':
+			case 'gTile-k-left-meta':
+				this.colKey = Math.max(0, this.colKey-1);
+				break;
+			case 'gTile-k-up':
+			case 'gTile-k-up-meta':
+				this.rowKey = Math.max(0, this.rowKey-1);
+				break;
+			case 'gTile-k-down':
+			case 'gTile-k-down-meta':
+				this.rowKey = Math.min(this.rowKey+1, this.rows-1);
+				this.colKey = (this.colKey == -1) ? 0 : this.colKey;
+				break;
+		}
+		global.log(this.rowKey + " - " + this.colKey);
+		this.keyElement = this.elements[this.rowKey][this.colKey];
+		this.keyElement._onHoverChanged();
+	},
+
+	_onKeyTile : function() {
+		if (this.keyElement) {
+			global.log("YOHAY!");
+			this.keyElement._onButtonPress();
+		}
+	},
+
 	_destroy : function()
 	{
 	    for(let r in this.elements)
@@ -1156,7 +1246,7 @@ Grid.prototype = {
 	    
 	    this.elementsDelegate._destroy();
 	    this.topbar._destroy();
-	    
+	    this._removeKeyControls();
 	    this.monitor = null;
 	    this.rows = null;
 		this.title = null;

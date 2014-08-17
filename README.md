@@ -28,8 +28,9 @@ forked from V12 [vibou.gTile](https://github.com/vibou/vibou.gTile) (for origina
 
 * v0.6{wip}
     + merge upstream changes from vibou.gTile (V21)
-    + exclude some apps by detecting wm_class. This is a wild guess to find apps which should not be tiled.
-    +
+    + exclude some apps with no wm_class. This is a wild guess to find apps which should not be tiled (like Hangouts)
+    + hide on escape
+    + add feature: select and tile by keyboard (move with Arrows, Shift+Arrow to select area, Spacebar to tile window)
 
 * v0.5 
     + support for latest cinnamon >1.8
