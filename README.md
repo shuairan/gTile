@@ -24,7 +24,7 @@ This extension has been developped by vibou. Cinnamon-fork by shuairan.
 
 forked from V12 [vibou.gTile](https://github.com/vibou/vibou.gTile) (for original changelog look there)
 
-* v0.6{wip}
+* v0.6
     + merge some upstream changes from vibou.gTile (V21)
     + exclude some apps with no wm_class. This is a wild guess to find apps which should not be tiled (like Hangouts)
     + hide on escape
