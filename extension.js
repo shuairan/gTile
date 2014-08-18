@@ -390,7 +390,7 @@ function _onFocus()
 
         //global.log("Connect window: "+window.get_title());
         focusMetaWindow = window;
-        focusMetaWindowConnections.push(focusMetaWindow.connect('notify::title',Lang.bind(this,this._onFocus)));
+        //focusMetaWindowConnections.push(focusMetaWindow.connect('notify::title',Lang.bind(this,this._onFocus)));
         
         let actor = focusMetaWindow.get_compositor_private();
         if(actor)
