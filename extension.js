@@ -269,13 +269,13 @@ function moveGrids()
 	        
 	        let time = (gridSettings[SETTINGS_ANIMATION]) ? 0.3 : 0.1;
 	        
-	        Tweener.addTween(grid.actor,
+			Tweener.addTween(grid.actor,
                          { 
                            time: time,
                            x:pos_x,
                            y:pos_y,
                            transition: 'easeOutQuad',
-                           onComplete:function() { global.log("complete"); updateRegions()}});
+                           onComplete:this.updateRegions});
         }
     }
 }
@@ -283,7 +283,6 @@ function moveGrids()
 function updateRegions()
 {
     Main.layoutManager._chrome.updateRegions();
-	global.log("updateRegions");
     refreshGrids();
     for(let idx in grids)
     {
@@ -415,7 +414,6 @@ function _onFocus()
             else
                 grid.topbar._set_title(title);
 	    }
-	    
 	    moveGrids();
     }
     else
@@ -1249,7 +1247,6 @@ Grid.prototype = {
 		
 		let candidate = false;
 		let cindex = false;
-		global.log(grids.length);
 		// find other grids //TODO: improve to loop around all grids!
 		for (k in grids) {
 			if (k == key) {
