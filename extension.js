@@ -209,7 +209,6 @@ function destroyGrids()
 		let monitor = monitors[monitorIdx];
 		let key = getMonitorKey(monitor);
 		let grid = grids[key];
-		global.log(typeof grid);
 		if (typeof grid != 'undefined') {
 			grid.hide(true);
 			Main.layoutManager.removeChrome(grid.actor);
@@ -219,6 +218,7 @@ function destroyGrids()
 
 function refreshGrids()
 {
+	//global.log("RefreshGrids");
     for(var gridIdx in grids)
     {
         let grid = grids[gridIdx];
@@ -275,7 +275,7 @@ function moveGrids()
                            x:pos_x,
                            y:pos_y,
                            transition: 'easeOutQuad',
-                           onComplete:this.updateRegions});
+                           onComplete:function() { global.log("complete"); updateRegions()}});
         }
     }
 }
@@ -283,6 +283,7 @@ function moveGrids()
 function updateRegions()
 {
     Main.layoutManager._chrome.updateRegions();
+	global.log("updateRegions");
     refreshGrids();
     for(let idx in grids)
     {
@@ -347,7 +348,7 @@ function move_resize_window(metaWindow,x,y,width,height)
 
 function _isMyWindow(win)
 {
-    global.log("meta-window: "+this.focusMetaWindow+" : "+win.meta_window);
+    //global.log("meta-window: "+this.focusMetaWindow+" : "+win.meta_window);
     return (this.focusMetaWindow == win.meta_window);
 }
 
@@ -356,7 +357,7 @@ function getWindowActor()
     let windows = global.get_window_actors().filter(this._isMyWindow, this);
     focusWindowActor = windows[0];
     
-    global.log("window actor: "+focusWindowActor+":"+focusMetaWindow.get_compositor_private() );
+    //global.log("window actor: "+focusWindowActor+":"+focusMetaWindow.get_compositor_private() );
 }
 
 function getNotFocusedWindowsOfMonitor(monitor)
@@ -830,7 +831,7 @@ ActionScale.prototype = {
      
     _onButtonPress : function()
     {
-       global.log(this.classname + "pressed");
+       //global.log(this.classname + "pressed");
     }
 }
 
@@ -865,7 +866,6 @@ GridSettingsButton.prototype = {
     {
         nbCols = this.cols;
         nbRows = this.rows;
-        
         refreshGrids();
     }
 };
@@ -1151,6 +1151,7 @@ Grid.prototype = {
 	    {
 	        this.isEntered = false;
 	        this.elementsDelegate.reset();
+
 	        refreshGrids();
 	    }
 	    
@@ -1201,7 +1202,7 @@ Grid.prototype = {
 		let modifier = type.indexOf('meta', type.length - 'meta'.length) !== -1;
 		
 		if (modifier && this.keyElement) {
-			global.log("MODIFIER pressed!");
+			//global.log("MODIFIER pressed!");
 			if (!this.elementsDelegate.activated) {
 			  this.keyElement._onButtonPress();
 			}
@@ -1213,11 +1214,13 @@ Grid.prototype = {
 		switch(type) {
 			case 'gTile-k-right':
 			case 'gTile-k-right-meta':
+				if (this.colKey == this.cols-1) { this._keyTileSwitch() }
 				this.colKey = Math.min(this.colKey+1, this.cols-1);
-				this.rowKey = (this.rowKey == -1) ? 0 : this.rowKey;
+				this.rowKey = (this.rowKey == -1) ? 0 : this.rowKey;	//leave initial state
 				break;
 			case 'gTile-k-left':
 			case 'gTile-k-left-meta':
+				if (this.colKey == 0) { this._keyTileSwitch() }
 				this.colKey = Math.max(0, this.colKey-1);
 				break;
 			case 'gTile-k-up':
@@ -1227,10 +1230,10 @@ Grid.prototype = {
 			case 'gTile-k-down':
 			case 'gTile-k-down-meta':
 				this.rowKey = Math.min(this.rowKey+1, this.rows-1);
-				this.colKey = (this.colKey == -1) ? 0 : this.colKey;
+				this.colKey = (this.colKey == -1) ? 0 : this.colKey;	//leave initial state
 				break;
 		}
-		global.log(this.rowKey + " - " + this.colKey);
+		//global.log(this.rowKey + " - " + this.colKey);
 		this.keyElement = this.elements[this.rowKey][this.colKey];
 		this.keyElement._onHoverChanged();
 	},
@@ -1238,6 +1241,24 @@ Grid.prototype = {
 	_keyTile : function() {
 		if (this.keyElement) {
 			this.keyElement._onButtonPress();
+		}
+	},
+	
+	_keyTileSwitch : function() {
+		let key = getMonitorKey(this.monitor);
+		
+		let candidate = false;
+		let cindex = false;
+		global.log(grids.length);
+		// find other grids //TODO: improve to loop around all grids!
+		for (k in grids) {
+			if (k == key) {
+				continue;
+			}
+			candidate = grids[k];
+		}
+		if (candidate) {
+			candidate._bindKeyControls();
 		}
 	},
 

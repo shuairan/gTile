@@ -28,6 +28,7 @@ forked from V12 [vibou.gTile](https://github.com/vibou/vibou.gTile) (for origina
     + merge some upstream changes from vibou.gTile (V21)
     + exclude some apps with no wm_class. This is a wild guess to find apps which should not be tiled (like Hangouts)
     + hide on escape
+	+ better multi-monitor support
     + new feature: select and tile by keyboard (move with Arrows, Shift+Arrow to select area, space or enter to tile window)
 
 * v0.5 
