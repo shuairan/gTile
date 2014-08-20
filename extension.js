@@ -78,13 +78,13 @@ let window_dragging=true;
 function initSettings()
 {
     //Here is where you add new grid size button
-    gridSettings[SETTINGS_GRID_SIZE] = [
+	/*gridSettings[SETTINGS_GRID_SIZE] = [
         new GridSettingsButton('2x2',2,2),
         //add directly a new button : new GridSettingsButton('2x3',2,3),
         new GridSettingsButton('3x2',3,2),
         new GridSettingsButton('4x4',4,4),
-        new GridSettingsButton('6x6',6,6),
-    ];
+        new GridSettingsButton('10x10',10,10),
+    ];*/
 
     //myCustomButton = new GridSettingsButton('Custom',8,8); //Going to be a 8x8 GridSettings
     //gridSettings[SETTINGS_GRID_SIZE].push(myCustomButton);
@@ -99,6 +99,16 @@ function initSettings()
                          "hotkey",
                          enableHotkey,
                          null);
+	
+	gridSettings[SETTINGS_GRID_SIZE] = new Array();
+	let basestr = "gridbutton"
+	for (let i = 1; i <= 4; i++) {
+		let sgbx = basestr + i + "x";
+		let sgby = basestr + i + "y";
+		let gbx = this.settings.getValue(sgbx);
+		let gby = this.settings.getValue(sgby);
+		gridSettings[SETTINGS_GRID_SIZE].push(new GridSettingsButton(gbx+"x"+gby, gbx, gby));
+	}
 
 }
 
@@ -1239,6 +1249,8 @@ Grid.prototype = {
 	_keyTile : function() {
 		if (this.keyElement) {
 			this.keyElement._onButtonPress();
+			this.colKey = -1;
+			this.rowKey = -1;
 		}
 	},
 	
