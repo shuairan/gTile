@@ -128,11 +128,11 @@
 	"type" : "generic",
 	"default" : "true"
  },
- "lastgridx" : {
+ "lastGridCols" : {
 	"type" : "generic",
 	"default" : 4
  },
- "lastgridy" : {
+ "lastGridRows" : {
 	"type" : "generic",
 	"default" : 4
  }

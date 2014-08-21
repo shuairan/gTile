@@ -94,12 +94,21 @@ function initSettings()
     gridSettings[SETTINGS_ANIMATION] = true;
 
 	this.settings = new Settings.ExtensionSettings(this, "gTile@shuairan");
+	//hotkey
 	this.settings.bindProperty(Settings.BindingDirection.IN,
                          "hotkey",
                          "hotkey",
                          enableHotkey,
                          null);
-	
+	//grid (nbCols and nbRows)
+	this.settings.bindProperty(Settings.BindingDirection.OUT,
+                         "lastGridRows",
+                         "nbCols");
+	this.settings.bindProperty(Settings.BindingDirection.OUT,
+                         "lastGridCols",
+                         "nbRows");
+
+
 	gridSettings[SETTINGS_GRID_SIZE] = new Array();
 	let basestr = "gridbutton"
 	for (let i = 1; i <= 4; i++) {
@@ -125,9 +134,6 @@ function enable() {
     status = false;
     monitors = Main.layoutManager.monitors;
     tracker = Cinnamon.WindowTracker.get_default();
-
-    nbCols = 4;
-    nbRows = 4;
 
     area = new St.BoxLayout({style_class: 'grid-preview'});
     Main.uiGroup.add_actor(area);
