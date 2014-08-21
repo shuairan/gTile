@@ -29,7 +29,7 @@ const Tooltips = imports.ui.tooltips;
 const Settings = imports.ui.settings
 
 const SETTINGS_GRID_SIZE = 'grid-size';
-const SETTINGS_AUTO_CLOSE = 'auto-close';
+const SETTINGS_AUTO_CLOSE = 'autoclose';
 const SETTINGS_ANIMATION = 'animation';
 
 const TOOLTIPS = new Array();
@@ -55,8 +55,6 @@ let status;
 let grids;
 let monitors;
 let tracker;
-let nbCols;
-let nbRows;
 let area;
 let focusMetaWindow = false;
 let focusWindowActor = false;
@@ -64,8 +62,9 @@ let focusMetaWindowConnections = new Array();
 let focusMetaWindowPrivateConnections = new Array();
 let tracker;
 let gridSettings = new Object();
+let gridSettingsButton = new Array();
 let toggleSettingListener;
-
+let preferences = {};
 
 let window_dragging=true;
 
@@ -77,23 +76,8 @@ let window_dragging=true;
 /*new GridSettingsButton(LABEL, NBCOL, NBROW) */
 function initSettings()
 {
-    //Here is where you add new grid size button
-	/*gridSettings[SETTINGS_GRID_SIZE] = [
-        new GridSettingsButton('2x2',2,2),
-        //add directly a new button : new GridSettingsButton('2x3',2,3),
-        new GridSettingsButton('3x2',3,2),
-        new GridSettingsButton('4x4',4,4),
-        new GridSettingsButton('10x10',10,10),
-    ];*/
 
-    //myCustomButton = new GridSettingsButton('Custom',8,8); //Going to be a 8x8 GridSettings
-    //gridSettings[SETTINGS_GRID_SIZE].push(myCustomButton);
-
-    //You can change those settings to set whatever you want by default
-    gridSettings[SETTINGS_AUTO_CLOSE] = true;
-    gridSettings[SETTINGS_ANIMATION] = true;
-
-	this.settings = new Settings.ExtensionSettings(this, "gTile@shuairan");
+	this.settings = new Settings.ExtensionSettings(this.preferences, "gTile@shuairan");
 	//hotkey
 	this.settings.bindProperty(Settings.BindingDirection.IN,
                          "hotkey",
@@ -108,15 +92,21 @@ function initSettings()
                          "lastGridCols",
                          "nbRows");
 
+	this.settings.bindProperty(Settings.BindingDirection.OUT,
+                         "animation",
+                         "animation");
+	this.settings.bindProperty(Settings.BindingDirection.OUT,
+                         "autoclose",
+                         "autoclose");
 
-	gridSettings[SETTINGS_GRID_SIZE] = new Array();
+
 	let basestr = "gridbutton"
 	for (let i = 1; i <= 4; i++) {
 		let sgbx = basestr + i + "x";
 		let sgby = basestr + i + "y";
 		let gbx = this.settings.getValue(sgbx);
 		let gby = this.settings.getValue(sgby);
-		gridSettings[SETTINGS_GRID_SIZE].push(new GridSettingsButton(gbx+"x"+gby, gbx, gby));
+		gridSettingsButton.push(new GridSettingsButton(gbx+"x"+gby, gbx, gby));
 	}
 
 }
@@ -159,7 +149,7 @@ function disable()
 
 function enableHotkey() {
 	disableHotkey();
-	Main.keybindingManager.addHotKey("gTile", this.hotkey, Lang.bind(this, toggleTiling));
+	Main.keybindingManager.addHotKey("gTile", this.preferences.hotkey, Lang.bind(this, toggleTiling));
 }
 
 function disableHotkey() {
@@ -207,7 +197,7 @@ function initGrids()
 	for(let monitorIdx in monitors)
 	{
 		let monitor = monitors[monitorIdx];
-		let grid = new Grid(monitorIdx,monitor,"gTile", nbCols, nbRows);
+		let grid = new Grid(monitorIdx,monitor,"gTile", preferences.nbCols, preferences.nbRows);
 		let key = getMonitorKey(monitor);
 		grids[key] = grid;
 		
@@ -283,7 +273,7 @@ function moveGrids()
 	            pos_y = ((pos_y + grid.actor.height) > (monitor.height+monitor.y)) ? monitor.y + monitor.height - grid.actor.height : pos_y;
 	        }
 	        
-	        let time = (gridSettings[SETTINGS_ANIMATION]) ? 0.3 : 0.1;
+	        let time = (this.preferences.animation) ? 0.3 : 0.1;
 	        
 			Tweener.addTween(grid.actor,
                          { 
@@ -656,7 +646,7 @@ ToggleSettingsButton.prototype = {
     
     _update : function()
     {
-        if(gridSettings[this.property])
+        if(preferences[this.property])
         {
             this.actor.add_style_pseudo_class('activate');
         }
@@ -668,7 +658,7 @@ ToggleSettingsButton.prototype = {
     
      _onButtonPress : function()
     {
-        gridSettings[this.property] = !gridSettings[this.property];
+        preferences[this.property] = !preferences[this.property];
         //global.log(this.property+": "+gridSettings[this.property]);
         this.emit('update-toggle');
     }
@@ -878,8 +868,8 @@ GridSettingsButton.prototype = {
     
     _onButtonPress : function()
     {
-        nbCols = this.cols;
-        nbRows = this.rows;
+        preferences.nbCols = this.cols;
+        preferences.nbRows = this.rows;
         refreshGrids();
     }
 };
@@ -933,7 +923,6 @@ Grid.prototype = {
 		let rowNum = 0;
 		let colNum = 0;
 		let maxPerRow = 4;
-		let gridSettingsButton = gridSettings[SETTINGS_GRID_SIZE];
 		
 		for(var index=0; index<gridSettingsButton.length;index++)
 		{
@@ -1049,8 +1038,8 @@ Grid.prototype = {
 	refresh : function()
 	{
         this.table.destroy_all_children();
-        this.cols = nbCols;
-        this.rows = nbRows;
+        this.cols = preferences.nbCols;
+        this.rows = preferences.nbRows;
         this._displayElements();
 	},
 	
@@ -1065,7 +1054,7 @@ Grid.prototype = {
 	{
 	    this.interceptHide = true;
 	    this.elementsDelegate.reset();
-	    let time = (gridSettings[SETTINGS_ANIMATION]) ? 0.3 : 0 ;
+	    let time = (preferences.animation) ? 0.3 : 0 ;
 	    
         this.actor.raise_top();
         Main.layoutManager.removeChrome(this.actor);
@@ -1099,7 +1088,7 @@ Grid.prototype = {
 	{
 	    this._removeKeyControls();
 		this.elementsDelegate.reset();
-	    let time = (gridSettings[SETTINGS_ANIMATION] && !immediate) ? 0.3 : 0;
+	    let time = (preferences.animation && !immediate) ? 0.3 : 0;
 	    //global.log(time);
 	    if(time > 0 )
 	    {
@@ -1143,7 +1132,7 @@ Grid.prototype = {
 	 _onResize: function(actor, event)
 	 {
 	    refreshGrids();
-        if(gridSettings[SETTINGS_AUTO_CLOSE])
+        if(this.preferences.autoclose)
         {
             this.emit('hide-tiling');
         }
@@ -1318,7 +1307,7 @@ GridElementDelegate.prototype = {
     
     _allSelected : function()
     {
-        return (this.activatedActors.length == (nbCols * nbRows));
+        return (this.activatedActors.length == (preferences.nbCols * preferences.nbRows));
     },
     
     _onButtonPress : function(gridElement)
@@ -1339,7 +1328,6 @@ GridElementDelegate.prototype = {
 	        //before doing anything with the window it must be unmaximized
 	        //if so move the window then maximize instead of change size
 	        //if not move the window and change size
-	        
 	        reset_window(focusMetaWindow);
             
             //focusMetaWindow.move_anchor_point_from_gravity(Clutter.Gravity.CENTER);
@@ -1427,7 +1415,9 @@ GridElementDelegate.prototype = {
 	{
 	    let minX,maxX,minY,maxY;
 	    [minX,maxX,minY,maxY] = this._getVarFromGridElement(fromGridElement,toGridElement);
-	   
+		let nbRows = preferences.nbRows;
+		let nbCols = preferences.nbCols;
+
 	    let monitor = fromGridElement.monitor;
 	    
 	    let offsetY = (isPrimaryMonitor(monitor) && !Main.panel.isHideable()) ? Main.panel.actor.height : 0;
@@ -1453,7 +1443,7 @@ GridElementDelegate.prototype = {
 				    
 		area.add_style_pseudo_class('activate');
 		
-		if(gridSettings[SETTINGS_ANIMATION])
+		if(preferences.animation)
 		{
 		    Tweener.addTween(area,
                          { 

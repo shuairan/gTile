@@ -124,7 +124,7 @@
 	"type" : "generic",
 	"default" : "true"
  },
- "autohide" : {
+ "animation" : {
 	"type" : "generic",
 	"default" : "true"
  },
