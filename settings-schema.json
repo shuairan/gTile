@@ -121,12 +121,14 @@
 	"type" : "separator"
  },
  "autoclose" : {
-	"type" : "generic",
-	"default" : "true"
+	"type" : "checkbox",
+	"default" : "true",
+	"description" : "Auto-Close"
  },
  "animation" : {
-	"type" : "generic",
-	"default" : "true"
+	"type" : "checkbox",
+	"default" : "true",
+	"description" : "Animation"
  },
  "lastGridCols" : {
 	"type" : "generic",

@@ -92,12 +92,16 @@ function initSettings()
                          "lastGridCols",
                          "nbRows");
 
-	this.settings.bindProperty(Settings.BindingDirection.OUT,
+	this.settings.bindProperty(Settings.BindingDirection.BIDIRECTIONAL,
                          "animation",
-                         "animation");
-	this.settings.bindProperty(Settings.BindingDirection.OUT,
+                         "animation",
+						 updateSettings,
+						 null);
+	this.settings.bindProperty(Settings.BindingDirection.BIDIRECTIONAL,
                          "autoclose",
-                         "autoclose");
+                         "autoclose",
+						 updateSettings,
+						 null);
 
 
 	let basestr = "gridbutton"
@@ -111,6 +115,9 @@ function initSettings()
 
 }
 
+function updateSettings() {
+	toggleSettingListener._updateToggle();
+}
 
 /*****************************************************************
                             FUNCTIONS
