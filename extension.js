@@ -77,7 +77,7 @@ let window_dragging=true;
 function initSettings()
 {
 
-	this.settings = new Settings.ExtensionSettings(this.preferences, "gTile@shuairan");
+	this.settings = new Settings.ExtensionSettings(preferences, "gTile@shuairan");
 	//hotkey
 	this.settings.bindProperty(Settings.BindingDirection.IN,
                          "hotkey",
@@ -149,7 +149,7 @@ function disable()
 
 function enableHotkey() {
 	disableHotkey();
-	Main.keybindingManager.addHotKey("gTile", this.preferences.hotkey, Lang.bind(this, toggleTiling));
+	Main.keybindingManager.addHotKey("gTile", preferences.hotkey, Lang.bind(this, toggleTiling));
 }
 
 function disableHotkey() {
@@ -273,7 +273,7 @@ function moveGrids()
 	            pos_y = ((pos_y + grid.actor.height) > (monitor.height+monitor.y)) ? monitor.y + monitor.height - grid.actor.height : pos_y;
 	        }
 	        
-	        let time = (this.preferences.animation) ? 0.3 : 0.1;
+	        let time = (preferences.animation) ? 0.3 : 0.1;
 	        
 			Tweener.addTween(grid.actor,
                          { 
@@ -1132,7 +1132,7 @@ Grid.prototype = {
 	 _onResize: function(actor, event)
 	 {
 	    refreshGrids();
-        if(this.preferences.autoclose)
+        if(preferences.autoclose)
         {
             this.emit('hide-tiling');
         }
