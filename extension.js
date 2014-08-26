@@ -104,19 +104,47 @@ function initSettings()
 						 null);
 
 
-	let basestr = "gridbutton"
+	let basestr = "gridbutton";
+
+	initGridSettings();
+
 	for (let i = 1; i <= 4; i++) {
 		let sgbx = basestr + i + "x";
 		let sgby = basestr + i + "y";
-		let gbx = this.settings.getValue(sgbx);
-		let gby = this.settings.getValue(sgby);
-		gridSettingsButton.push(new GridSettingsButton(gbx+"x"+gby, gbx, gby));
+		this.settings.bindProperty(Settings.BindingDirection.IN,
+                         sgbx,
+                         sgbx,
+						 updateGridSettings, null);
+		this.settings.bindProperty(Settings.BindingDirection.IN,
+                         sgby,
+                         sgby,
+						 updateGridSettings, null);
 	}
-
 }
 
 function updateSettings() {
 	toggleSettingListener._updateToggle();
+}
+
+function initGridSettings() {
+	let basestr = "gridbutton";
+	for (let i = 1; i <= 4; i++) {
+		let sgbx = basestr + i + "x";
+		let sgby = basestr + i + "y";
+		let gbx = settings.getValue(sgbx);
+		let gby = settings.getValue(sgby);
+		gridSettingsButton.push(new GridSettingsButton(gbx+"x"+gby, gbx, gby));
+	}
+}
+
+function updateGridSettings() {
+	gridSettingsButton = new Array();
+	initGridSettings();
+    for(var gridIdx in grids)
+    {
+        let grid = grids[gridIdx];
+        grid._initGridSettingsButtons();
+    }
 }
 
 /*****************************************************************
@@ -906,6 +934,7 @@ Grid.prototype = {
 		this.actor.connect('enter-event',Lang.bind(this,this._onMouseEnter));
 		this.actor.connect('leave-event',Lang.bind(this,this._onMouseLeave));
 
+
 		//this.actor.connect('key-press-event', Lang.bind(this, this._globalKeyPressEvent));
 		//global.stage.connect('key-press-event', Lang.bind(this, this._globalKeyPressEvent));
 
@@ -927,24 +956,7 @@ Grid.prototype = {
                                     width:this.tableWidth,
                                     });
                                     
-		let rowNum = 0;
-		let colNum = 0;
-		let maxPerRow = 4;
-		
-		for(var index=0; index<gridSettingsButton.length;index++)
-		{
-		    if(colNum>= 4)
-		    {
-		        colNum = 0;
-		        rowNum += 2;
-		    }
-		    
-		    let button = gridSettingsButton[index];
-		    button = new GridSettingsButton(button.text,button.cols,button.rows);
-		    this.bottombar.add(button.actor,{row:rowNum, col:colNum,x_fill:false,y_fill:false});
-		    button.actor.connect('notify::hover',Lang.bind(this,this._onSettingsButton));
-		    colNum++;
-		}		
+		this._initGridSettingsButtons();
 		
 		this.table = new St.Table({ homogeneous: true,
                                     style_class: 'table',
@@ -1014,6 +1026,31 @@ Grid.prototype = {
 		this.normalScaleX = this.actor.scale_x;
 	},
 	
+	_initGridSettingsButtons : function () 
+	{
+		this.bottombar.destroy_children();
+
+		let rowNum = 0;
+		let colNum = 0;
+		let maxPerRow = 4;
+		
+
+		for(var index=0; index<gridSettingsButton.length;index++)
+		{
+		    if(colNum>= 4)
+		    {
+		        colNum = 0;
+		        rowNum += 2;
+		    }
+		    
+		    let button = gridSettingsButton[index];
+		    button = new GridSettingsButton(button.text,button.cols,button.rows);
+		    this.bottombar.add(button.actor,{row:rowNum, col:colNum,x_fill:false,y_fill:false});
+		    button.actor.connect('notify::hover',Lang.bind(this,this._onSettingsButton));
+		    colNum++;
+		}	
+	},
+
 	_displayElements : function()
 	{
 	    this.elements = new Array();
