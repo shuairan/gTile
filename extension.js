@@ -1178,8 +1178,6 @@ Grid.prototype = {
 	
 	_bindKeyControls : function() {
 		Main.keybindingManager.addHotKey("gTile-close", 'Escape', Lang.bind(this, toggleTiling));
-		Main.keybindingManager.addHotKey("gTile-tile1", 'space', Lang.bind(this, this._keyTile));
-		Main.keybindingManager.addHotKey("gTile-tile2", 'Return', Lang.bind(this, this._keyTile));
 		for (let index in KEYCONTROL) {
 			let key = KEYCONTROL[index];
 			let type = index;
@@ -1187,16 +1185,25 @@ Grid.prototype = {
 		}
 	},
 
+	_bindKeyControlsTile : function() {
+		Main.keybindingManager.addHotKey("gTile-tile1", 'space', Lang.bind(this, this._keyTile));
+		Main.keybindingManager.addHotKey("gTile-tile2", 'Return', Lang.bind(this, this._keyTile));
+	},
+
 	_removeKeyControls : function() {
 		this.rowKey = -1;
 		this.colKey = -1;
 		Main.keybindingManager.removeHotKey("gTile-close");
-		Main.keybindingManager.removeHotKey("gTile-tile1");
-		Main.keybindingManager.removeHotKey("gTile-tile2");
+		this._removeKeyControlsTile();
 		for (let type in KEYCONTROL) {
 			//let key = KEYCONTROL[type];
 			Main.keybindingManager.removeHotKey(type);
 		}
+	},
+
+	_removeKeyControlsTile : function() {
+		Main.keybindingManager.removeHotKey("gTile-tile1");
+		Main.keybindingManager.removeHotKey("gTile-tile2");
 	},
 
 	_onKeyPressEvent : function(type, key) {
@@ -1206,12 +1213,14 @@ Grid.prototype = {
 		
 		if (modifier && this.keyElement) {
 			//global.log("MODIFIER pressed!");
+			this._bindKeyControlsTile();
 			if (!this.elementsDelegate.activated) {
 			  this.keyElement._onButtonPress();
 			}
 		}
 		else if (this.keyElement) {
 			this.elementsDelegate.reset();
+			this._removeKeyControlsTile();
 		}
 
 		switch(type) {
