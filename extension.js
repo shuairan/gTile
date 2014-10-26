@@ -558,16 +558,7 @@ function getMonitorKey(monitor)
 
 function getFocusApp()
 { 
-    let windows = global.screen.get_active_workspace().list_windows();
-    for ( let i = 0; i < windows.length; ++i ) 
-    {
-            let metaWindow = windows[i];
-            if(metaWindow.has_focus())
-            {
-                return metaWindow;
-            }
-    }
-    return false;
+	return global.display.focus_window;
 }
 
 function isPrimaryMonitor(monitor)
