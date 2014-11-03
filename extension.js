@@ -406,6 +406,7 @@ function getNotFocusedWindowsOfMonitor(monitor)
 			let wm_type = w.get_window_type();
 			let app = tracker.get_window_app(w);
 			if (app == null) { return false; }
+                        if (w.minimized) { return false; }
 			return focusMetaWindow != w && w.get_wm_class() != null;	
 		});
 }
