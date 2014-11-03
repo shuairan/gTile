@@ -28,6 +28,7 @@ forked from V12 [vibou.gTile](https://github.com/vibou/vibou.gTile) (for origina
     + Cinnamon 2.4
     + put all settings to extension setting screen
     + AutoTile: only tile non-minimized windows
+    + AutoTile: improve on multi monitor (only tile windows in current screen)
 
 * v0.6
     + merge some upstream changes from vibou.gTile (V21)
