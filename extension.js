@@ -405,21 +405,28 @@ function getNotFocusedWindowsOfMonitor(monitor)
     return Main.getTabList().filter(function(w) {
 			let wm_type = w.get_window_type();
 			let app = tracker.get_window_app(w);
-			if (app == null) { return false; }
-                        if (w.minimized) { return false; }
+			let w_monitor = Main.layoutManager.monitors[w.get_monitor()];
+
+            if (app == null) { return false; }
+			if (w.minimized) { return false; }
+			if (w_monitor != monitor) { return false; }
+
 			return focusMetaWindow != w && w.get_wm_class() != null;	
 		});
 }
 
 function getWindowsOfMonitor(monitor)
 {
-    return Main.getTabList();
-	return Main.getTabList().filter(function(w) {
+    return Main.getTabList().filter(function(w) {
+		let w_monitor = Main.layoutManager.monitors[w.get_monitor()];
+		if (w.minimized) { return false; }
+		if (w_monitor != monitor) { return false; }
+
 		if (w.get_wm_class() == null) {
 			global.log(w.get_title() + " has no wm-class");
 			return false;
-		  }
-		  return true;
+		}
+		return true;
 	});
 }
 
