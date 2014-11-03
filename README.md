@@ -1,6 +1,6 @@
 gTile
 -----
-for cinnamon 2.0 and 2.2
+for cinnamon 2.x
 
 This extension has been developped by vibou. Cinnamon-fork by shuairan.
 
@@ -23,6 +23,11 @@ This extension has been developped by vibou. Cinnamon-fork by shuairan.
 **Changelog:**
 
 forked from V12 [vibou.gTile](https://github.com/vibou/vibou.gTile) (for original changelog look there)
+
+* v0.7
+    + Cinnamon 2.4
+    + put all settings to extension setting screen
+    + AutoTile: only tile non-minimized windows
 
 * v0.6
     + merge some upstream changes from vibou.gTile (V21)
