@@ -6,6 +6,18 @@ This extension has been developped by vibou. Cinnamon-fork by shuairan.
 
 [Cinnamon Spices: gTile](http://cinnamon-spices.linuxmint.com/extensions/view/21)
 
+**Installation**:
+
+Either install using the extensions manager or for manual installation:
+
+clone from github
+
+	git clone https://github.com/shuairan/gTile.git
+
+then copy/move to extensions folder
+
+	mv gTile ~/.local/share/cinnamon/extensions/gTile@shuairan
+
 **Usage**:
 
   <kbd>Super</kbd>+<kbd>Space</kbd> open gTile  (you can change this on extension-settings)  
@@ -17,7 +29,7 @@ This extension has been developped by vibou. Cinnamon-fork by shuairan.
 
 **Additional Information**:
 
-  Cinnamon has also a own window tiling function with various hotkeys [Learn more about it](http://segfault.linuxmint.com/2013/07/new-window-tiling-and-snapping-functionality/)  
+  Cinnamon has also an own window tiling function with various hotkeys [Learn more about it](http://segfault.linuxmint.com/2013/07/new-window-tiling-and-snapping-functionality/)  
   this extension will provide an other way to tile your window, via a small overlay on your currently focused application
 
 **Changelog:**
